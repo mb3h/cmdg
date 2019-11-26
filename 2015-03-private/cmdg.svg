@@ -718,7 +718,7 @@
 <path fill="none" stroke="white" d="M2014.3,-894.592C2034.75,-913.763 2059.28,-936.762 2080.56,-956.716"/>
 <polygon fill="white" stroke="white" points="2078.26,-959.349 2087.94,-963.636 2083.04,-954.243 2078.26,-959.349"/>
 <text text-anchor="middle" x="2051" y="-944.2" font-family="Migu 1M" font-size="12.00" fill="white">OnPcgID</text>
-<text text-anchor="middle" x="2051" y="-931.2" font-family="Migu 1M" font-size="12.00" fill="white">(フォント高さ毎)</text>
+<text text-anchor="middle" x="2051" y="-931.2" font-family="Migu 1M" font-size="12.00" fill="white">(per lfHeight)</text>
 </g>
 <!-- cOrderWidth&#45;&gt;PCG16N -->
 <g id="edge128" class="edge"><title>cOrderWidth&#45;&gt;PCG16N</title>
@@ -788,7 +788,7 @@
 <path fill="none" stroke="white" d="M2319.24,-1347.76C2346.57,-1305.91 2388.03,-1242.42 2417.13,-1197.86"/>
 <polygon fill="white" stroke="white" points="2420.24,-1199.5 2422.78,-1189.22 2414.38,-1195.68 2420.24,-1199.5"/>
 <text text-anchor="middle" x="2371" y="-1310.2" font-family="Migu 1M" font-size="12.00" fill="white">OnPcgID</text>
-<text text-anchor="middle" x="2371" y="-1297.2" font-family="Migu 1M" font-size="12.00" fill="white">(フォント高さ毎)</text>
+<text text-anchor="middle" x="2371" y="-1297.2" font-family="Migu 1M" font-size="12.00" fill="white">(per lfHeight)</text>
 <text text-anchor="middle" x="2371" y="-1284.2" font-family="Migu 1M" font-size="12.00" fill="white">|| DrawLine</text>
 <text text-anchor="middle" x="2371" y="-1271.2" font-family="Migu 1M" font-size="12.00" fill="white">&#45;&gt; DrawPCG</text>
 </g>
