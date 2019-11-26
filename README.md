@@ -16,7 +16,7 @@ when too exaggerate to treat by HTML and browser, or write dedicated GUI tool.
 
 BEGINNING
 - [x] commit old version (Windows binary only) and sample, old design model(.svg).
-- [ ] commit new design model. (append UTF-8 support, remove DBCS and much different from old version.)
+- [x] commit new design model. (append UTF-8 support, remove DBCS and much different from old version.)
 - [ ] i386-gnu-linux/GTK2 base implementation (not as SSH2 remote, as simple pts implement).
 - [ ] 'bash' shell behavior debug (LANG=C 7bits code and basic escape-sequence).
 - [ ] embbed BMP binary support.
