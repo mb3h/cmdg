@@ -2,7 +2,7 @@
 
 ## Overview
 
-![](https://raw.githubusercontent.com/mb3h/cmdg/master/2015-03-private/sample.png)
+![](https://raw.githubusercontent.com/mb3h/cmdg/master/cmdg.png)
 
 This is VT100 emurator which support embbed PNG/BMP/Sixel graphic output to console.
 (Implements based on private code written old for Windows)
@@ -17,18 +17,21 @@ when too exaggerate to treat by HTML and browser, or write dedicated GUI tool.
 BEGINNING
 - [x] commit old version (Windows binary only) and sample, old design model(.svg).
 - [x] commit new design model. (append UTF-8 support, remove DBCS and much different from old version.)
-- [ ] i386-gnu-linux/GTK2 base implementation (not as SSH2 remote, as simple pts implement).
-- [ ] 'bash' shell behavior debug (LANG=C 7bits code and basic escape-sequence).
-- [ ] embbed BMP binary support.
-- [ ] embbed PNG binary support.
-- [ ] embbed Sixel text support. (not movie, but only picture)
-- [ ] SSH2 remote.
+- [x] i386-gnu-linux/GTK2 base implementation (not as SSH2 remote, as simple pts implement).
+- [x] 'bash' shell behavior debug (LANG=C 7bits code and basic escape-sequence).
+- [x] embbed BMP binary support.
+- [x] SSH2 remote (ssh-rsa, aes256-ctr and hmac-sha1 limited).
+- [ ] Windows build support (MSVC).
 - [ ] 'Vim' editor behavior debug.
 - [ ] 'man' command behavior debug.
 - [ ] LANG=UTF-8 behavior debug.
+- [ ] SSH2 remote (algorythm support expand).
+- [ ] embbed PNG binary support.
+- [ ] embbed Sixel text support. (not movie, but only picture)
+- [ ] implement original aes.c sha1.c sha2.c.
 
 ADVANCED
-- [ ] Windows build support (not MSVC, but MinGW supposed).
+- [ ] Windows build support (MinGW).
 - [ ] embbed JPEG binary support.
 - [ ] make embbed-in / embbed-out trigger editable. (by .conf file)
 - [ ] graphic transfer without embbed support. (*1)
@@ -44,15 +47,15 @@ PENDING
 If you think may do it, giving donation would be helpful for keeping my development activity. 
 (Off course, I cannot please anything to persons who are not interested in, don't feel possibility, or don't get useful by my works ...)
 
-[![](https://raw.githubusercontent.com/mb3h/cmdg/master/0.004BTC.png)](bitcoin:3KVrnSbvZx7x8qHnz6na7XUtT3HADUZszZ?amount=0.004)
+[![](https://raw.githubusercontent.com/mb3h/cmdg/master/0.0028BTC.png)](bitcoin:3KVrnSbvZx7x8qHnz6na7XUtT3HADUZszZ?amount=0.0028)
 
 Thanks your will and mind.
 
-[![](https://raw.githubusercontent.com/mb3h/cmdg/master/0.0264BTC.png)](bitcoin:3KVrnSbvZx7x8qHnz6na7XUtT3HADUZszZ?amount=0.0264)
+[![](https://raw.githubusercontent.com/mb3h/cmdg/master/0.035BTC.png)](bitcoin:3KVrnSbvZx7x8qHnz6na7XUtT3HADUZszZ?amount=0.035)
 
-Thanks, it should create time till the end of the year. (Unless meet unexpected problem ...)
+Thanks, it should create time till the end of the October. (Unless meet unexpected problem ...)
 
-[![](https://raw.githubusercontent.com/mb3h/cmdg/master/0.17424BTC.png)](bitcoin:3KVrnSbvZx7x8qHnz6na7XUtT3HADUZszZ?amount=0.17424)
+[![](https://raw.githubusercontent.com/mb3h/cmdg/master/0.15BTC.png)](bitcoin:3KVrnSbvZx7x8qHnz6na7XUtT3HADUZszZ?amount=0.15)
 
 Thanks your investment. If modifying TODO priority, implement new feature, etc., something is, please send mail and say it.
 
