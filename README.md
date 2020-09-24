@@ -79,4 +79,4 @@ However I have iPad only now. In future, after I can prepare Machintosh and XCod
 For Example, packaged only ldlinux.sys, syslinux.cfg, vmlinuz and minimized initrd.img, booting without switching /root mount, mini USB bootable system etc.
 (I don't examine wheather possible or impossible. Even if on VGA, should use scaledown 8 colors, but feel like needing patch something for libc or kernel bypass ...)
 
-README Updated on:2019-11-26
+README Updated on:2020-09-24
