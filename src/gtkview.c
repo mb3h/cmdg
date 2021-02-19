@@ -927,18 +927,23 @@ View *m_;
 u16 ws_col, ws_row;
 	ws_col = view->allocation.width / m_->lf_width;
 	ws_row = view->allocation.height / m_->lf_height;
-	if (! (ws_col == m_->ws_col && ws_row == m_->ws_row)) {
+int what_needed;
+	what_needed = 0;
+	if (! (ws_col == m_->ws_col && ws_row == m_->ws_row))
+		what_needed |= 1 | 2;
+	if (m_->font_is_changed) {
+		m_->font_is_changed = false;
+		what_needed |= 2;
+	}
+	if (1 & what_needed) {
 		if (!view_con_resize (m_, ws_col, ws_row)) {
 fprintf (stderr, VTRR "not enough memory" VTO "." "\n");
 			exit (1); // not enough memory.
 		}
-		view_con_erase (m_);
-		m_->itr_top = cmdg_reput (m_->term, ITR_CUR, 0);
 	}
-	else if (m_->font_is_changed) {
+	if (2 & what_needed) {
 		view_con_erase (m_);
 		m_->itr_top = cmdg_reput (m_->term, ITR_CUR, 0);
-		m_->font_is_changed = false;
 	}
 }
 
