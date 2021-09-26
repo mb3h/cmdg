@@ -35,7 +35,7 @@ ADVANCED
 - [ ] embbed JPEG binary support.
 - [ ] make embbed-in / embbed-out trigger editable. (by .conf file)
 - [ ] graphic transfer without embbed support. (*1)
-- [ ] ./configure script support.
+- [x] ./configure script support.
 
 PENDING
 - [ ] iOS build support and application release. (*2)

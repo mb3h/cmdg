@@ -411,7 +411,7 @@ u16 new_cb;
 	if (NULL == row->sgr && SGR_MODIFY & flags) {
 		if (NULL == (row->sgr = (u16 *)malloc_s (sizeof(row->sgr[0]) * new_cb)))
 			return false;
-		memset (row->sgr +row->cb, 0, sizeof(row->sgr[0]) * (new_cb - row->cb));
+		memset (row->sgr, 0, sizeof(row->sgr[0]) * new_cb);
 	}
 	row->cb = (u16)(new_cb < 65536 ? new_cb : 65535);
 	return true;
@@ -600,7 +600,6 @@ int n;
 		}
 u8 nl_aux;
 		nl_aux = text_get_nl_aux (&m_->EXUTF8s[n_got], m_->view);
-//LOG2(0, "(n=%d,i=..) " VTYY "get_nl_aux" VTO "()=%d", n_got -1, nl_aux)
 		// previous row
 		if (offset < 0) {
 			nl_trim_got = 1 +nl_aux;
@@ -861,7 +860,6 @@ u8 y_none;
 		if (n_reput == m_->n_cur && 0 == nl_trim_reput)
 			csr_lock (m_, m_->x_cur, y);
 		y += (nl_trim_reput < nl_aux_reput) ? nl_aux_reput - nl_trim_reput : 0;
-//LOG3(0, "(n=%d,i=..) " VTYY "get_nl_aux" VTO "()=%d nl_trim=%d", n_reput, nl_aux_reput, nl_trim_reput)
 		nl_trim_reput = 0;
 	}
 u8 y_none;

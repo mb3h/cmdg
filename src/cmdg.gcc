@@ -106,12 +106,19 @@ CFLAGS="$CFLAGS -I$GTK_DIR/glib-2.0"         # gio/gio.h .. (from gdk/gdkapplaun
 CFLAGS="$CFLAGS -I$GTK_LIB/glib-2.0/include" # glibconfig.h .. (from glib/gtypes.h ..)
 CFLAGS="$CFLAGS -I$GTK_DIR/cairo"            # cairo.h .. (from gdk/gdkscreen.h)
 CFLAGS="$CFLAGS -I$GTK_DIR/pango-1.0"        # pango/pango.h .. (from gdk/gdktypes.h ..)
-CFLAGS="$CFLAGS -I$GTK_DIR/gtk-2.0/gdk"      # gdkconfig.h .. (from gdk/gdktypes.h ..)
 CFLAGS="$CFLAGS -I$GTK_DIR/gdk-pixbuf-2.0"   # gdk-pixbuf/gdk-pixbuf.h .. (from gdkpixbuf.h ..)
 CFLAGS="$CFLAGS -I$GTK_DIR/atk-1.0"          # atk/atk.h .. (from gtk/gtkwidget.h ..)
+CFLAGS="$CFLAGS -I$GTK_LIB/gtk-2.0/include"  # gdkconfig.h (from gdk/gdktypes.h)
 CFLAGS="-I. $CFLAGS"
 
 LDFLAGS="-Wl,--library-path=$GTK_LIB -lgtk-x11-2.0"
+LDFLAGS="$LDFLAGS -lgdk-x11-2.0" # gdk_drawable_set_colormap ..
+LDFLAGS="$LDFLAGS -lcairo" # cairo_paint ..
+LDFLAGS="$LDFLAGS -lgdk_pixbuf-2.0" # gdk_pixbuf_new_from_data ..
+LDFLAGS="$LDFLAGS -lpango-1.0" # pango_context_get_language ..
+LDFLAGS="$LDFLAGS -lgobject-2.0" # g_object_get_qdata ..
+LDFLAGS="$LDFLAGS -lglib-2.0" # g_remove_source ..
+LDFLAGS="$LDFLAGS -lpthread" # pthread_create ..
 
 # as only
 if test x1 = x"$assemble_only" ; then
