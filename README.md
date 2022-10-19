@@ -42,26 +42,6 @@ PENDING
 - [ ] linux system without X-Window support. (*3)
 
 
-## Donation
-
-If you think may do it, giving donation would be helpful for keeping my development activity. 
-(Off course, I cannot please anything to persons who are not interested in, don't feel possibility, or don't get useful by my works ...)
-
-[![](https://raw.githubusercontent.com/mb3h/cmdg/master/0.0028BTC.png)](bitcoin:3KVrnSbvZx7x8qHnz6na7XUtT3HADUZszZ?amount=0.0028)
-
-Thanks your will and mind.
-
-[![](https://raw.githubusercontent.com/mb3h/cmdg/master/0.035BTC.png)](bitcoin:3KVrnSbvZx7x8qHnz6na7XUtT3HADUZszZ?amount=0.035)
-
-Thanks, it should create time till the end of the October. (Unless meet unexpected problem ...)
-
-[![](https://raw.githubusercontent.com/mb3h/cmdg/master/0.15BTC.png)](bitcoin:3KVrnSbvZx7x8qHnz6na7XUtT3HADUZszZ?amount=0.15)
-
-Thanks your investment. If modifying TODO priority, implement new feature, etc., something is, please send mail and say it.
-
-bitcoin:3KVrnSbvZx7x8qHnz6na7XUtT3HADUZszZ
-
-
 ## Lastly
 
 Thanks a lot achievement of Graphviz dot tools, Vim, and more.
@@ -79,4 +59,4 @@ However I have iPad only now. In future, after I can prepare Machintosh and XCod
 For Example, packaged only ldlinux.sys, syslinux.cfg, vmlinuz and minimized initrd.img, booting without switching /root mount, mini USB bootable system etc.
 (I don't examine wheather possible or impossible. Even if on VGA, should use scaledown 8 colors, but feel like needing patch something for libc or kernel bypass ...)
 
-README Updated on:2020-09-24
+README Updated on:2022-10-19
