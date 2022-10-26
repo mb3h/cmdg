@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.69])
 AC_INIT([cmdg], [0.00])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([subdir-objects foreign])
 AC_CONFIG_SRCDIR([src/vt100.h])
 AC_CONFIG_HEADERS([config.h])
 

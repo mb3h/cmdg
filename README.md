@@ -4,12 +4,32 @@
 
 ![](https://raw.githubusercontent.com/mb3h/cmdg/master/cmdg.png)
 
+![](https://raw.githubusercontent.com/mb3h/cmdg/master/cmdg.svg)
+
 This is VT100 emurator which support embbed PNG/BMP/Sixel graphic output to console.
 (Implements based on private code written old for Windows)
 
 Main purpose is to assist writing small graphical tool enough command-line tool extend,
 when too exaggerate to treat by HTML and browser, or write dedicated GUI tool.
 (I used for seeing address in movie file and monitoring remote server screen)
+
+
+## Getting Started
+
+```bash
+# renew suitable './configure'
+aclocal ; autoheader ; automake -a -c ; autoconf
+./patch-Makefile.in.sh
+
+# create Makefile
+./configure
+
+# build
+make
+
+# startup
+src/cmdg
+```
 
 
 ## TODO priority / progress
@@ -59,4 +79,4 @@ However I have iPad only now. In future, after I can prepare Machintosh and XCod
 For Example, packaged only ldlinux.sys, syslinux.cfg, vmlinuz and minimized initrd.img, booting without switching /root mount, mini USB bootable system etc.
 (I don't examine wheather possible or impossible. Even if on VGA, should use scaledown 8 colors, but feel like needing patch something for libc or kernel bypass ...)
 
-README Updated on:2022-10-19
+README Updated on:2022-10-26
