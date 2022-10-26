@@ -5,6 +5,7 @@
 # define _XOPEN_SOURCE 600 // posix_openpt (>= 600)
 # include <features.h>
 # include <stdlib.h> // posix_openpt
+# include <alloca.h>
 # include <unistd.h> // fork
 # include <fcntl.h> // O_RDWR
 # include <termios.h> // termios ICANON ..
@@ -76,13 +77,16 @@ bool unexpected;
 		} while (0);
 		close (pts);
 		if (unexpected) {
-fprintf (stderr_old, VTRR "ERROR" VTO " pipe cannot connected stdin/stdout/stderr. @err=%d" "\n", errno, unixerror (errno));
+fprintf (stderr_old, VTRR "ERROR" VTO " pipe cannot connected stdin/stdout/stderr. @err=%d'%s'" "\n", errno, unixerror (errno));
 			exit (-1);
 		}
 const char *shell_path;
 		if (NULL == (shell_path = getenv ("SHELL")) || '\0' == *shell_path)
 			shell_path = "/bin/sh";
-char *const *argv = NULL;
+char *safety; // const removing (*)for regacy main()
+	safety = (char *)alloca (strlen (shell_path) +1), strcpy (safety, shell_path);
+char *argv[]
+		= { safety, NULL };
 		execvp (shell_path, argv);
 		exit (0);
 	}

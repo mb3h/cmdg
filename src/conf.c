@@ -155,8 +155,11 @@ size_t fsize;
 	fseek (fp, 0, SEEK_SET);
 	retval = (char *)malloc (fsize +2);
 ASSERTE(retval)
-	fread (retval, 1, fsize, fp);
+size_t got;
+	got = fread (retval, 1, fsize, fp);
 	fclose (fp);
+	if (! (got == fsize))
+fprintf (stderr_old, "%s: warning:" VTRR "file cannot read enough" VTO "." "\n", path);
 size_t i;
 	for (i = 0; i < fsize; ++i)
 		if ('\n' == retval[i])

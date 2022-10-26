@@ -507,14 +507,14 @@ struct ssh2keygen {
 	size_t variable;
 };
 
-static void *ssh2key_security_erase (void *this__)
+static void ssh2key_security_erase (void *this__)
 {
 struct ssh2keygen *this_;
 	this_ = (struct ssh2keygen *)this__;
 	memset (this_->seed, 0, this_->seed_len);
 }
 
-static void *ssh2key_dtor (void *this__)
+static void ssh2key_dtor (void *this__)
 {
 struct ssh2keygen *this_;
 	this_ = (struct ssh2keygen *)this__;

@@ -1233,7 +1233,7 @@ unsigned hi;
 u8 c;
 	c = (u8)(0xff & keyval);
 const char *cstr;
-size_t len;
+unsigned len;
 	cstr = (char *)&c;
 	len = 1;
 	if (hi) {
@@ -1253,7 +1253,7 @@ int n;
 			if (!map[n].cstr)
 				return false;
 			cstr = map[n].cstr;
-			len = strlen (map[n].cstr);
+			len = (unsigned)strlen (map[n].cstr);
 			break;
 		case 0xe3:
 		case 0xe4:
@@ -1272,11 +1272,11 @@ int n;
 		return false;
 	// ui-thread: gtkin -> shell // TODO sub-thread impl (should not prevent ui-thread)
 const char *buf;
-size_t nread;
-ssize_t written;
+unsigned nread;
+int written;
 	buf = cstr;
 	nread = len;
-	while (! (nread == (written = m_->remote->write (&m_->remote_, buf, nread)))) {
+	while (! (nread == (written = (int)m_->remote->write (&m_->remote_, buf, nread)))) {
 		if (! (0 < written)) {
 fprintf (stderr_old, VTRR "WARN" VTO " write(shell) return %d, dispose %d bytes." "\n", written, nread);
 			break;
