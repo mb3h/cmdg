@@ -1,17 +1,17 @@
-#include <stdio.h> // FILE
-#include "defs.h"
+#include <stdint.h>
 #include "base64.h"
-#include "vt100.h"
-extern FILE *stderr_old;
+
+#include <stdio.h>
+#include <stdlib.h> // exit
 
 typedef uint32_t u32;
 typedef  uint8_t u8;
 
-size_t base64_decode (const char *src, void *dst_, size_t cb)
+unsigned base64_decode (const char *src, void *dst_, unsigned cb)
 {
-u8 *dst, *end;
-	dst = (u8 *)dst_, end = dst + cb;
-	while (dst < end) {
+unsigned retval; u8 *dst;
+	retval = 0, dst = (u8 *)dst_;
+	while (!dst || retval < cb) {
 u32 u;
 		u = 0;
 int n;
@@ -37,10 +37,15 @@ char c;
 			u |= (u8)c;
 		}
 int i;
-		for (i = 2; 3 -i < n && dst < end; --i)
-			*dst++ = (u8)(0xff & u >> i * 8);
+		for (i = 2; 3 -i < n; --i, ++retval) {
+			if (!dst)
+				continue;
+			if (! (retval < cb))
+				return 0; // ERROR: buffer overflow
+			*(dst +retval) = (u8)(0xff & u >> i * 8);
+		}
 		if (n < 4)
 			break;
 	}
-	return dst - (u8 *)dst_;
+	return retval;
 }

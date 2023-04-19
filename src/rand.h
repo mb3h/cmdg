@@ -1,8 +1,8 @@
-#ifndef RAND_H_IS_INCLUDED__
-#define RAND_H_IS_INCLUDED__
+#ifndef RAND_H_INCLUDED__
+#define RAND_H_INCLUDED__
 
 void random_init ();
-void random_add_noise (const void *src, size_t cb);
-void store_random (void *dst, size_t cb);
+void random_add_noise (const void *src, unsigned cb);
+void store_random (void *dst, unsigned cb);
 
-#endif //def RAND_H_IS_INCLUDED__
+#endif //def RAND_H_INCLUDED__

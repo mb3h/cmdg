@@ -14,12 +14,17 @@ when too exaggerate to treat by HTML and browser, or write dedicated GUI tool.
 (I used for seeing address in movie file and monitoring remote server screen)
 
 
+## SSH Test
+
+server: OpenSSH 8.2p1 / Ubuntu 20.04.3 (5.4.0-88-generic)
+result: [ssh2-test.log](https://github.com/mb3h/cmdg/blob/master/ssh2-test.log)
+
+
 ## Getting Started
 
 ```bash
 # renew suitable './configure'
 aclocal ; autoheader ; automake -a -c ; autoconf
-./patch-Makefile.in.sh
 
 # create Makefile
 ./configure
@@ -28,7 +33,7 @@ aclocal ; autoheader ; automake -a -c ; autoconf
 make
 
 # startup
-src/cmdg
+src/cmdg -k <private-key-file> -p <port> <hostname>
 ```
 
 
@@ -48,7 +53,7 @@ BEGINNING
 - [ ] SSH2 remote (algorythm support expand).
 - [ ] embbed PNG binary support.
 - [ ] embbed Sixel text support. (not movie, but only picture)
-- [ ] implement original aes.c sha1.c sha2.c.
+- [ ] implement original aes.cpp sha1.cpp sha2.cpp.
 
 ADVANCED
 - [ ] Windows build support (MinGW).
@@ -60,6 +65,11 @@ ADVANCED
 PENDING
 - [ ] iOS build support and application release. (*2)
 - [ ] linux system without X-Window support. (*3)
+
+
+## Appendix
+
+Use Annotation: TODO PENDING NOTE CAUTION WARNING
 
 
 ## Lastly
@@ -79,4 +89,4 @@ However I have iPad only now. In future, after I can prepare Machintosh and XCod
 For Example, packaged only ldlinux.sys, syslinux.cfg, vmlinuz and minimized initrd.img, booting without switching /root mount, mini USB bootable system etc.
 (I don't examine wheather possible or impossible. Even if on VGA, should use scaledown 8 colors, but feel like needing patch something for libc or kernel bypass ...)
 
-README Updated on:2022-10-26
+README Updated on:2023-04-19

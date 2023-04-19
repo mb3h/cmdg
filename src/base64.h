@@ -1,6 +1,6 @@
-#ifndef BASE64_H_IS_INCLUDED__
-#define BASE64_H_IS_INCLUDED__
+#ifndef BASE64_H_INCLUDED__
+#define BASE64_H_INCLUDED__
 
-size_t base64_decode (const char *src, void *dst_, size_t cb);
+unsigned base64_decode (const char *src, void *dst_, unsigned cb);
 
-#endif //def BASE64_H_IS_INCLUDED__
+#endif //def BASE64_H_INCLUDED__

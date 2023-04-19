@@ -23,7 +23,7 @@ typedef  WORD uint16_t;
 # include <unistd.h>
 //# define DEFAULT_SPEED_FROM_TERMIOS
 # ifdef DEFAULT_SPEED_FROM_TERMIOS
-#  include <termios.h>
+#  include <termios.h> // cfgetospeed
 # endif
 #endif
 

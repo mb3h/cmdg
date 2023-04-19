@@ -1,0 +1,67 @@
+20XX-XX-XX  mb3h
+
+	* NOTE: 1) Picked up source code (*.c *.h *.cpp ...) and
+	           build setting (configure.ac Makefile.am ...) fixing only.
+	        2) Date was written on GMT(+0000).
+
+2023-04-19  mb3h
+
+	Refactoring and many fixes.
+	1) refactoring
+	2) 64bit build support (for 'size_t' 32bit -> 64bit etc.)
+	3) forward some of SSH2 protocol message support (#34 KEX_DH_GEX_REQUEST etc.)
+	   (*)test server changed: OpenSSH 5.9p1 -> 8.2p1
+	* cmdg.gcc fakeconn.c fakeconn.h gtkview.h iid.h: (Removed)
+	* assert.h aes.hpp conn.hpp sha1.hpp sha2.hpp
+	* config.cpp gtk2view.cpp intv.cpp lock.cpp ptmx.cpp ssh2.cpp
+	* config.hpp gtk2view.hpp intv.hpp lock.hpp ptmx.hpp ssh2.hpp
+	* vt100_parser.cpp vt100_handler.cpp
+	* vt100_parser.hpp vt100_handler.hpp
+	* cmdg.cpp: (Renamed)
+	* VRAM.hpp appconst.h cipher.hpp config_reader.hpp idle_event.hpp
+	* img_helper.hpp key_event.hpp mac.hpp menu_event.hpp parser_event.hpp
+	* pixel.h ssh2const.h sshkey_const.h vt100_event.hpp
+	* GVRAM.cpp TVRAM.cpp bmp_helper.cpp cipher_factory.cpp cipher_helper.c
+	* GVRAM.hpp TVRAM.hpp bmp_helper.hpp cipher_factory.hpp cipher_helper.h
+	* bmp_rawdata_clip_range_fit.c lsb0_bit_helper.c pixel_stream_calc_dirty.c
+	* bmp_rawdata_clip_range_fit.h lsb0_bit_helper.h pixel_stream_calc_dirty.h
+	* gdk2_helper.cpp gtk2_helper.cpp log.c mac_factory.cpp mediator.cpp mpint.c
+	* gdk2_helper.hpp gtk2_helper.hpp log.h mac_factory.hpp mediator.hpp mpint.h
+	* portab.c puttykey.c queue.cpp ringbuf.cpp unicode.c
+	* portab.h puttykey.h queue.hpp ringbuf.hpp unicode.h: (New added)
+
+2022-10-26  mb3h
+
+	* [0.0.0] freezed.
+
+2022-10-26  mb3h
+
+	a few 64bit support fixes and other small fixes.
+	* cmdg.c conf.c ptmx.c ssh2.c:
+
+2022-10-26  mb3h
+
+	Fixed automake, autoconf and missing link overlooked for 3years :_(
+	* configure.ac Makefile.am aclocal.m4:
+	* patch-Makefile.in.sh: (New added)
+
+2021-09-26  mb3h
+
+	ADVANCED 1/5, [append] cmdg.conf support, [bugfix] few
+	* Makefile.in cmdg.c conf.c escseq.c:
+
+2021-02-19  mb3h
+
+	* gtkview.c: [bugfix] wipe delay on resize.
+
+2020-09-24  mb3h
+
+	Alpha version
+	* base64.c cmdg.c conf.c fakeconn.c gtkview.c intv.c lock.c ptmx.c:
+	* base64.h cmdg.h conf.h fakeconn.h gtkview.h intv.h lock.h ptmx.h:
+	* rand.c ssh2.c vt100.c  sample.c sample2.c:
+	* rand.h ssh2.h vt100.h  aes.h sha1.h sha2.h conn.h iid.h:
+
+2019-11-25  mb3h
+
+	* (all): First commit

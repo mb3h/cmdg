@@ -1,0 +1,52 @@
+# test server: OpenSSH 8.2p1
+
+login as: [1;32mconnect [0mNNN.NNN.NNN.NNN:NNNNN
+-> '[1;32mSSH-2.0-Cmdg_0.00\r\n[0m' len=19 [[1;32mID-string[0m]
+<- '[1;33mSSH-2.0-OpenSSH_8.2\r\n[0m' len=21 [[1;33mID-string[0m]
+-> SSH[1;32m#20[0m len=151 (=160-4-1-4) [[1;32mKEXINIT[0m]
+<- SSH[1;33m#20[0m len=1041 (=1056-4-1-10) [[1;33mKEXINIT[0m]
+-> SSH[1;32m#34[0m len=13 (=24-4-1-6) [[1;32mKEX_DH_GEX_REQUEST[0m]
+<- SSH[1;33m#31[0m len=523 (=536-4-1-8) [[1;33mKEX_DH_GEX_GROUP[0m]
+-> SSH[1;32m#32[0m len=517 (=528-4-1-6) [[1;32mKEX_DH_GEX_INIT[0m]
+<- SSH[1;33m#33[0m len=1332 (=1344-4-1-7) [[1;33mKEX_DH_GEX_REPLY[0m]
+1756983a9f9ab1937a1af533ad501f15 a43aa161 KEX-hash verify (SHA-1) [[1;33mfrom server[0m]
+1756983a9f9ab1937a1af533ad501f15 a43aa161 KEX-hash verify (SHA-1) [[1;32mclient calc[0m]
+-> KEX-hash verify .. [1;32mOK[0m
+<- SSH[1;33m#21[0m len=1 (=16-4-1-10) [[1;33mNEWKEYS[0m]
+-> SSH[1;32m#21[0m len=1 (=16-4-1-10) [[1;32mNEWKEYS[0m]
+-> SSH[1;32m#5[0m len=17 (=32-4-1-10) [[1;32mSERVICE_REQUEST[0m]
+<- SSH[1;33m#6[0m len=17 (=32-4-1-10) [[1;33mSERVICE_ACCEPT[0m]
+-> SSH[1;32m#50[0m len=35 (=48-4-1-8) [[1;32mUSERAUTH_REQUEST[0m]
+<- SSH[1;33m#51[0m len=24 (=48-4-1-19) [[1;33mUSERAUTH_FAILURE[0m]
+-> SSH[1;32m#50[0m len=269 (=288-4-1-14) [[1;32mUSERAUTH_REQUEST[0m]
+<- SSH[1;33m#60[0m len=229 (=240-4-1-6) [[1;33mUSERAUTH_PK_OK[0m]
+Passphrase: 
+[1;36mdebug[0m: 7bd4c5fb73420085be6d4c4e95367d9b 73a7c228 [1;32mPrivate-MAC[0m
+[1;36mdebug[0m: 7bd4c5fb73420085be6d4c4e95367d9b 73a7c228 [1;33mcalc[0m
+-> SSH[1;32m#50[0m len=480 (=496-4-1-11) [[1;32mUSERAUTH_REQUEST[0m]
+<- SSH[1;33m#52[0m len=1 (=16-4-1-10) [[1;33mUSERAUTH_SUCCESS[0m]
+-> SSH[1;32m#90[0m len=24 (=48-4-1-19) [[1;32mCHANNEL_OPEN[0m]
+<- SSH[1;33m#80[0m len=603 (=624-4-1-16) [[1;33mGLOBAL_REQUEST[0m]
+<- SSH[1;33m#4[0m len=117 (=128-4-1-6) [[1;33mDEBUG[0m]
+<- SSH[1;33m#4[0m len=117 (=128-4-1-6) [[1;33mDEBUG[0m]
+<- SSH[1;33m#91[0m len=17 (=32-4-1-10) [[1;33mCHANNEL_OPEN_CONFIRMATION[0m]
+-> SSH[1;32m#98[0m len=62 (=80-4-1-13) [[1;32mCHANNEL_REQUEST[0m]
+<- SSH[1;33m#99[0m len=5 (=16-4-1-6) [[1;33mCHANNEL_SUCCESS[0m]
+-> SSH[1;32m#98[0m len=15 (=32-4-1-12) [[1;32mCHANNEL_REQUEST[0m]
+<- SSH[1;33m#93[0m len=9 (=32-4-1-18) [[1;33mCHANNEL_WINDOW_ADJUST[0m]
+<- SSH[1;33m#99[0m len=5 (=16-4-1-6) [[1;33mCHANNEL_SUCCESS[0m]
+-> SSH[1;32m#98[0m len=15 (=32-4-1-12) [[1;32mCHANNEL_REQUEST[0m]
+<- SSH[1;33m#94[0m len=67 (=80-4-1-8) [[1;33mCHANNEL_DATA[0m]
+Last login: Www Mmm DD HH:MM:SS YYYY from NNN.NNN.NNN.NNN
+<- SSH[1;33m#100[0m len=5 (=16-4-1-6) [[1;33mCHANNEL_FAILURE[0m]
+<- SSH[1;33m#94[0m len=43 (=64-4-1-16) [[1;33mCHANNEL_DATA[0m]
+]0;mb3h@statue: ~mb3h@statue:~$ 
+-> SSH[1;32m#94[0m len=15 (=32-4-1-12) [[1;32mCHANNEL_DATA[0m]
+<- SSH[1;33m#94[0m len=16 (=32-4-1-11) [[1;33mCHANNEL_DATA[0m]
+ exit
+<- SSH[1;33m#94[0m len=17 (=32-4-1-10) [[1;33mCHANNEL_DATA[0m]
+logout
+<- SSH[1;33m#98[0m len=25 (=48-4-1-18) [[1;33mCHANNEL_REQUEST[0m]
+<- SSH[1;33m#96[0m len=5 (=16-4-1-6) [[1;33mCHANNEL_EOF[0m]
+<- SSH[1;33m#97[0m len=5 (=16-4-1-6) [[1;33mCHANNEL_CLOSE[0m]
+-> SSH[1;32m#97[0m len=5 (=16-4-1-6) [[1;32mCHANNEL_CLOSE[0m]

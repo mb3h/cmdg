@@ -1,0 +1,49 @@
+#ifndef SSH2_CONST_H_INCLUDED__
+#define SSH2_CONST_H_INCLUDED__
+
+#define SSH2_MSG_DISCONNECT                        1
+#define SSH2_MSG_IGNORE                            2
+#define SSH2_MSG_UNIMPLEMENTED                     3
+#define SSH2_MSG_DEBUG                             4
+#define SSH2_MSG_SERVICE_REQUEST                   5
+#define SSH2_MSG_SERVICE_ACCEPT                    6
+#define SSH2_MSG_KEXINIT                           20
+#define SSH2_MSG_NEWKEYS                           21
+#define SSH2_MSG_KEX_DH_GEX_REQUEST_OLD            30
+#define SSH2_MSG_KEX_DH_GEX_GROUP                  31
+#define SSH2_MSG_KEX_DH_GEX_INIT                   32
+#define SSH2_MSG_KEX_DH_GEX_REPLY                  33
+#define SSH2_MSG_KEX_DH_GEX_REQUEST                34
+#define SSH2_MSG_KEXRSA_PUBKEY                     30
+#define SSH2_MSG_KEXRSA_SECRET                     31
+#define SSH2_MSG_KEXRSA_DONE                       32
+#define SSH2_MSG_USERAUTH_REQUEST                  50
+#define SSH2_MSG_USERAUTH_FAILURE                  51
+#define SSH2_MSG_USERAUTH_SUCCESS                  52
+#define SSH2_MSG_USERAUTH_BANNER                   53
+#define SSH2_MSG_USERAUTH_PK_OK                    60
+#define SSH2_MSG_USERAUTH_PASSWD_CHANGEREQ         60
+#define SSH2_MSG_USERAUTH_INFO_REQUEST             60
+#define SSH2_MSG_USERAUTH_INFO_RESPONSE            61
+#define SSH2_MSG_USERAUTH_GSSAPI_RESPONSE          60
+#define SSH2_MSG_USERAUTH_GSSAPI_TOKEN             61
+#define SSH2_MSG_USERAUTH_GSSAPI_EXCHANGE_COMPLETE 63
+#define SSH2_MSG_USERAUTH_GSSAPI_ERROR             64
+#define SSH2_MSG_USERAUTH_GSSAPI_ERRTOK            65
+#define SSH2_MSG_USERAUTH_GSSAPI_MIC               66
+#define SSH2_MSG_GLOBAL_REQUEST                    80
+#define SSH2_MSG_REQUEST_SUCCESS                   81
+#define SSH2_MSG_REQUEST_FAILURE                   82
+#define SSH2_MSG_CHANNEL_OPEN                      90
+#define SSH2_MSG_CHANNEL_OPEN_CONFIRMATION         91
+#define SSH2_MSG_CHANNEL_OPEN_FAILURE              92
+#define SSH2_MSG_CHANNEL_WINDOW_ADJUST             93
+#define SSH2_MSG_CHANNEL_DATA                      94
+#define SSH2_MSG_CHANNEL_EXTENDED_DATA             95
+#define SSH2_MSG_CHANNEL_EOF                       96
+#define SSH2_MSG_CHANNEL_CLOSE                     97
+#define SSH2_MSG_CHANNEL_REQUEST                   98
+#define SSH2_MSG_CHANNEL_SUCCESS                   99
+#define SSH2_MSG_CHANNEL_FAILURE                   100
+
+#endif //ndef SSH2_CONST_H_INCLUDED__

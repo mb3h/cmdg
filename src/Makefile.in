@@ -99,13 +99,23 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_cmdg_OBJECTS = cmdg-cmdg.$(OBJEXT) cmdg-gtkview.$(OBJEXT) \
-	cmdg-vt100.$(OBJEXT) cmdg-escseq.$(OBJEXT) cmdg-lock.$(OBJEXT) \
-	cmdg-conf.$(OBJEXT) cmdg-ptmx.$(OBJEXT)
+am__dirstamp = $(am__leading_dot)dirstamp
+am_cmdg_OBJECTS = cmdg.$(OBJEXT) config.$(OBJEXT) gtk2view.$(OBJEXT) \
+	mediator.$(OBJEXT) vt100_handler.$(OBJEXT) \
+	vt100_parser.$(OBJEXT) TVRAM.$(OBJEXT) GVRAM.$(OBJEXT) \
+	gdk2_helper.$(OBJEXT) gtk2_helper.$(OBJEXT) \
+	bmp_helper.$(OBJEXT) cmdg-unicode.$(OBJEXT) \
+	core/cmdg-pixel_stream_calc_dirty.$(OBJEXT) \
+	core/cmdg-bmp_rawdata_clip_range_fit.$(OBJEXT) \
+	core/cmdg-lsb0_bit_helper.$(OBJEXT) ssh2.$(OBJEXT) \
+	queue.$(OBJEXT) ringbuf.$(OBJEXT) cmdg-mpint.$(OBJEXT) \
+	intv.$(OBJEXT) sha2.$(OBJEXT) sha1.$(OBJEXT) aes.$(OBJEXT) \
+	cmdg-base64.$(OBJEXT) cmdg-rand.$(OBJEXT) \
+	cmdg-cipher_helper.$(OBJEXT) cipher_factory.$(OBJEXT) \
+	mac_factory.$(OBJEXT) cmdg-puttykey.$(OBJEXT) lock.$(OBJEXT) \
+	cmdg-portab.$(OBJEXT) cmdg-log.$(OBJEXT)
 cmdg_OBJECTS = $(am_cmdg_OBJECTS)
 cmdg_DEPENDENCIES =
-cmdg_LINK = $(CCLD) $(cmdg_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
-	-o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -121,10 +131,23 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/cmdg-cmdg.Po \
-	./$(DEPDIR)/cmdg-conf.Po ./$(DEPDIR)/cmdg-escseq.Po \
-	./$(DEPDIR)/cmdg-gtkview.Po ./$(DEPDIR)/cmdg-lock.Po \
-	./$(DEPDIR)/cmdg-ptmx.Po ./$(DEPDIR)/cmdg-vt100.Po
+am__depfiles_remade = ./$(DEPDIR)/GVRAM.Po ./$(DEPDIR)/TVRAM.Po \
+	./$(DEPDIR)/aes.Po ./$(DEPDIR)/bmp_helper.Po \
+	./$(DEPDIR)/cipher_factory.Po ./$(DEPDIR)/cmdg-base64.Po \
+	./$(DEPDIR)/cmdg-cipher_helper.Po ./$(DEPDIR)/cmdg-log.Po \
+	./$(DEPDIR)/cmdg-mpint.Po ./$(DEPDIR)/cmdg-portab.Po \
+	./$(DEPDIR)/cmdg-puttykey.Po ./$(DEPDIR)/cmdg-rand.Po \
+	./$(DEPDIR)/cmdg-unicode.Po ./$(DEPDIR)/cmdg.Po \
+	./$(DEPDIR)/config.Po ./$(DEPDIR)/gdk2_helper.Po \
+	./$(DEPDIR)/gtk2_helper.Po ./$(DEPDIR)/gtk2view.Po \
+	./$(DEPDIR)/intv.Po ./$(DEPDIR)/lock.Po \
+	./$(DEPDIR)/mac_factory.Po ./$(DEPDIR)/mediator.Po \
+	./$(DEPDIR)/queue.Po ./$(DEPDIR)/ringbuf.Po \
+	./$(DEPDIR)/sha1.Po ./$(DEPDIR)/sha2.Po ./$(DEPDIR)/ssh2.Po \
+	./$(DEPDIR)/vt100_handler.Po ./$(DEPDIR)/vt100_parser.Po \
+	core/$(DEPDIR)/cmdg-bmp_rawdata_clip_range_fit.Po \
+	core/$(DEPDIR)/cmdg-lsb0_bit_helper.Po \
+	core/$(DEPDIR)/cmdg-pixel_stream_calc_dirty.Po
 am__mv = mv -f
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -142,6 +165,19 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+AM_V_CXX = $(am__v_CXX_@AM_V@)
+am__v_CXX_ = $(am__v_CXX_@AM_DEFAULT_V@)
+am__v_CXX_0 = @echo "  CXX     " $@;
+am__v_CXX_1 = 
+CXXLD = $(CXX)
+CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
+AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
+am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
+am__v_CXXLD_0 = @echo "  CXXLD   " $@;
+am__v_CXXLD_1 = 
 SOURCES = $(cmdg_SOURCES)
 DIST_SOURCES = $(cmdg_SOURCES)
 am__can_run_installinfo = \
@@ -183,6 +219,9 @@ CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
+CXX = @CXX@
+CXXDEPMODE = @CXXDEPMODE@
+CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -226,6 +265,7 @@ abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
 ac_ct_CC = @ac_ct_CC@
+ac_ct_CXX = @ac_ct_CXX@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -266,26 +306,36 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 # use not cmdg_CPPFLAGS but AM_CPPFLAGS, because definition of
 # simple '.c.o' '.cpp.o' is expand into waste many 'XXX.o'.
-AM_CPPFLAGS = -x c -std=c99 -Wno-deprecated-declarations @GTK_CFLAGS@
-cmdg_LDADD = @GTK_LIBS@
-@USE_SSH_TRUE@cmdg_CFLAGS = 
-@USE_SSH_TRUE@cmdg_SOURCES = cmdg.c gtkview.c vt100.c escseq.c lock.c conf.c \
-@USE_SSH_TRUE@               cmdg.h gtkview.h vt100.h          lock.h conf.h \
-@USE_SSH_TRUE@               iid.h defs.h \
-@USE_SSH_TRUE@               ssh2.c aes.c sha2.c sha1.c intv.c rand.c base64.c \
-@USE_SSH_TRUE@               ssh2.h aes.h sha2.h sha1.h intv.h rand.h base64.h \
-@USE_SSH_TRUE@               iface/conn.h
-@USE_SSH_FALSE@cmdg_CFLAGS = -DSSH_NOT_AVAILABLE
-@USE_SSH_FALSE@cmdg_SOURCES = cmdg.c gtkview.c vt100.c escseq.c lock.c conf.c \
-@USE_SSH_FALSE@               cmdg.h gtkview.h vt100.h          lock.h conf.h \
-@USE_SSH_FALSE@               iid.h defs.h \
-@USE_SSH_FALSE@               ptmx.c \
-@USE_SSH_FALSE@               ptmx.h
+AM_CPPFLAGS = -std=c99 \
+              -Wno-deprecated-declarations \
+              -fdiagnostics-color=always \
+              -x c \
+              @GTK_CFLAGS@ \
+              -DNODEBUG=
+
+cmdg_LDADD = @GTK_LIBS@ -lpthread
+cmdg_CFLAGS = 
+cmdg_SOURCES = cmdg.cpp appconst.h \
+               config.cpp gtk2view.cpp mediator.cpp vt100_handler.cpp vt100_parser.cpp TVRAM.cpp GVRAM.cpp \
+               config.hpp gtk2view.hpp mediator.hpp vt100_handler.hpp vt100_parser.hpp TVRAM.hpp GVRAM.hpp \
+               gdk2_helper.cpp gtk2_helper.cpp bmp_helper.cpp unicode.c \
+               gdk2_helper.hpp gtk2_helper.hpp bmp_helper.hpp unicode.h \
+               core/pixel_stream_calc_dirty.c core/bmp_rawdata_clip_range_fit.c core/lsb0_bit_helper.c \
+               core/pixel_stream_calc_dirty.h core/bmp_rawdata_clip_range_fit.h core/lsb0_bit_helper.h \
+               ssh2const.h \
+               ssh2.cpp queue.cpp ringbuf.cpp mpint.c intv.cpp sha2.cpp sha1.cpp aes.cpp base64.c rand.c \
+               ssh2.hpp queue.hpp ringbuf.hpp mpint.h intv.hpp sha2.hpp sha1.hpp aes.hpp base64.h rand.h \
+               cipher_helper.c cipher_factory.cpp mac_factory.cpp \
+               cipher_helper.h cipher_factory.hpp mac_factory.hpp \
+               puttykey.c \
+               puttykey.h \
+               lock.cpp portab.c log.c \
+               lock.hpp portab.h log.h assert.h vt100.h
 
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj
+.SUFFIXES: .c .cpp .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -357,24 +407,62 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+core/$(am__dirstamp):
+	@$(MKDIR_P) core
+	@: > core/$(am__dirstamp)
+core/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) core/$(DEPDIR)
+	@: > core/$(DEPDIR)/$(am__dirstamp)
+core/cmdg-pixel_stream_calc_dirty.$(OBJEXT): core/$(am__dirstamp) \
+	core/$(DEPDIR)/$(am__dirstamp)
+core/cmdg-bmp_rawdata_clip_range_fit.$(OBJEXT): core/$(am__dirstamp) \
+	core/$(DEPDIR)/$(am__dirstamp)
+core/cmdg-lsb0_bit_helper.$(OBJEXT): core/$(am__dirstamp) \
+	core/$(DEPDIR)/$(am__dirstamp)
 
 cmdg$(EXEEXT): $(cmdg_OBJECTS) $(cmdg_DEPENDENCIES) $(EXTRA_cmdg_DEPENDENCIES) 
 	@rm -f cmdg$(EXEEXT)
-	$(AM_V_CCLD)$(cmdg_LINK) $(cmdg_OBJECTS) $(cmdg_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(cmdg_OBJECTS) $(cmdg_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f core/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-cmdg.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-conf.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-escseq.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-gtkview.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-lock.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-ptmx.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-vt100.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/GVRAM.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/TVRAM.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/aes.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bmp_helper.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cipher_factory.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-base64.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-cipher_helper.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-log.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-mpint.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-portab.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-puttykey.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-rand.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-unicode.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/config.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gdk2_helper.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gtk2_helper.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gtk2view.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/intv.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lock.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mac_factory.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mediator.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ringbuf.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sha1.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sha2.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ssh2.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vt100_handler.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vt100_parser.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@core/$(DEPDIR)/cmdg-bmp_rawdata_clip_range_fit.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@core/$(DEPDIR)/cmdg-lsb0_bit_helper.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@core/$(DEPDIR)/cmdg-pixel_stream_calc_dirty.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -398,103 +486,175 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-cmdg-cmdg.o: cmdg.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-cmdg.o -MD -MP -MF $(DEPDIR)/cmdg-cmdg.Tpo -c -o cmdg-cmdg.o `test -f 'cmdg.c' || echo '$(srcdir)/'`cmdg.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-cmdg.Tpo $(DEPDIR)/cmdg-cmdg.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cmdg.c' object='cmdg-cmdg.o' libtool=no @AMDEPBACKSLASH@
+cmdg-unicode.o: unicode.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-unicode.o -MD -MP -MF $(DEPDIR)/cmdg-unicode.Tpo -c -o cmdg-unicode.o `test -f 'unicode.c' || echo '$(srcdir)/'`unicode.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-unicode.Tpo $(DEPDIR)/cmdg-unicode.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='unicode.c' object='cmdg-unicode.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-cmdg.o `test -f 'cmdg.c' || echo '$(srcdir)/'`cmdg.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-unicode.o `test -f 'unicode.c' || echo '$(srcdir)/'`unicode.c
 
-cmdg-cmdg.obj: cmdg.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-cmdg.obj -MD -MP -MF $(DEPDIR)/cmdg-cmdg.Tpo -c -o cmdg-cmdg.obj `if test -f 'cmdg.c'; then $(CYGPATH_W) 'cmdg.c'; else $(CYGPATH_W) '$(srcdir)/cmdg.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-cmdg.Tpo $(DEPDIR)/cmdg-cmdg.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cmdg.c' object='cmdg-cmdg.obj' libtool=no @AMDEPBACKSLASH@
+cmdg-unicode.obj: unicode.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-unicode.obj -MD -MP -MF $(DEPDIR)/cmdg-unicode.Tpo -c -o cmdg-unicode.obj `if test -f 'unicode.c'; then $(CYGPATH_W) 'unicode.c'; else $(CYGPATH_W) '$(srcdir)/unicode.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-unicode.Tpo $(DEPDIR)/cmdg-unicode.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='unicode.c' object='cmdg-unicode.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-cmdg.obj `if test -f 'cmdg.c'; then $(CYGPATH_W) 'cmdg.c'; else $(CYGPATH_W) '$(srcdir)/cmdg.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-unicode.obj `if test -f 'unicode.c'; then $(CYGPATH_W) 'unicode.c'; else $(CYGPATH_W) '$(srcdir)/unicode.c'; fi`
 
-cmdg-gtkview.o: gtkview.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-gtkview.o -MD -MP -MF $(DEPDIR)/cmdg-gtkview.Tpo -c -o cmdg-gtkview.o `test -f 'gtkview.c' || echo '$(srcdir)/'`gtkview.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-gtkview.Tpo $(DEPDIR)/cmdg-gtkview.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtkview.c' object='cmdg-gtkview.o' libtool=no @AMDEPBACKSLASH@
+core/cmdg-pixel_stream_calc_dirty.o: core/pixel_stream_calc_dirty.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT core/cmdg-pixel_stream_calc_dirty.o -MD -MP -MF core/$(DEPDIR)/cmdg-pixel_stream_calc_dirty.Tpo -c -o core/cmdg-pixel_stream_calc_dirty.o `test -f 'core/pixel_stream_calc_dirty.c' || echo '$(srcdir)/'`core/pixel_stream_calc_dirty.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) core/$(DEPDIR)/cmdg-pixel_stream_calc_dirty.Tpo core/$(DEPDIR)/cmdg-pixel_stream_calc_dirty.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='core/pixel_stream_calc_dirty.c' object='core/cmdg-pixel_stream_calc_dirty.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-gtkview.o `test -f 'gtkview.c' || echo '$(srcdir)/'`gtkview.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o core/cmdg-pixel_stream_calc_dirty.o `test -f 'core/pixel_stream_calc_dirty.c' || echo '$(srcdir)/'`core/pixel_stream_calc_dirty.c
 
-cmdg-gtkview.obj: gtkview.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-gtkview.obj -MD -MP -MF $(DEPDIR)/cmdg-gtkview.Tpo -c -o cmdg-gtkview.obj `if test -f 'gtkview.c'; then $(CYGPATH_W) 'gtkview.c'; else $(CYGPATH_W) '$(srcdir)/gtkview.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-gtkview.Tpo $(DEPDIR)/cmdg-gtkview.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gtkview.c' object='cmdg-gtkview.obj' libtool=no @AMDEPBACKSLASH@
+core/cmdg-pixel_stream_calc_dirty.obj: core/pixel_stream_calc_dirty.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT core/cmdg-pixel_stream_calc_dirty.obj -MD -MP -MF core/$(DEPDIR)/cmdg-pixel_stream_calc_dirty.Tpo -c -o core/cmdg-pixel_stream_calc_dirty.obj `if test -f 'core/pixel_stream_calc_dirty.c'; then $(CYGPATH_W) 'core/pixel_stream_calc_dirty.c'; else $(CYGPATH_W) '$(srcdir)/core/pixel_stream_calc_dirty.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) core/$(DEPDIR)/cmdg-pixel_stream_calc_dirty.Tpo core/$(DEPDIR)/cmdg-pixel_stream_calc_dirty.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='core/pixel_stream_calc_dirty.c' object='core/cmdg-pixel_stream_calc_dirty.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-gtkview.obj `if test -f 'gtkview.c'; then $(CYGPATH_W) 'gtkview.c'; else $(CYGPATH_W) '$(srcdir)/gtkview.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o core/cmdg-pixel_stream_calc_dirty.obj `if test -f 'core/pixel_stream_calc_dirty.c'; then $(CYGPATH_W) 'core/pixel_stream_calc_dirty.c'; else $(CYGPATH_W) '$(srcdir)/core/pixel_stream_calc_dirty.c'; fi`
 
-cmdg-vt100.o: vt100.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-vt100.o -MD -MP -MF $(DEPDIR)/cmdg-vt100.Tpo -c -o cmdg-vt100.o `test -f 'vt100.c' || echo '$(srcdir)/'`vt100.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-vt100.Tpo $(DEPDIR)/cmdg-vt100.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vt100.c' object='cmdg-vt100.o' libtool=no @AMDEPBACKSLASH@
+core/cmdg-bmp_rawdata_clip_range_fit.o: core/bmp_rawdata_clip_range_fit.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT core/cmdg-bmp_rawdata_clip_range_fit.o -MD -MP -MF core/$(DEPDIR)/cmdg-bmp_rawdata_clip_range_fit.Tpo -c -o core/cmdg-bmp_rawdata_clip_range_fit.o `test -f 'core/bmp_rawdata_clip_range_fit.c' || echo '$(srcdir)/'`core/bmp_rawdata_clip_range_fit.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) core/$(DEPDIR)/cmdg-bmp_rawdata_clip_range_fit.Tpo core/$(DEPDIR)/cmdg-bmp_rawdata_clip_range_fit.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='core/bmp_rawdata_clip_range_fit.c' object='core/cmdg-bmp_rawdata_clip_range_fit.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-vt100.o `test -f 'vt100.c' || echo '$(srcdir)/'`vt100.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o core/cmdg-bmp_rawdata_clip_range_fit.o `test -f 'core/bmp_rawdata_clip_range_fit.c' || echo '$(srcdir)/'`core/bmp_rawdata_clip_range_fit.c
 
-cmdg-vt100.obj: vt100.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-vt100.obj -MD -MP -MF $(DEPDIR)/cmdg-vt100.Tpo -c -o cmdg-vt100.obj `if test -f 'vt100.c'; then $(CYGPATH_W) 'vt100.c'; else $(CYGPATH_W) '$(srcdir)/vt100.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-vt100.Tpo $(DEPDIR)/cmdg-vt100.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vt100.c' object='cmdg-vt100.obj' libtool=no @AMDEPBACKSLASH@
+core/cmdg-bmp_rawdata_clip_range_fit.obj: core/bmp_rawdata_clip_range_fit.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT core/cmdg-bmp_rawdata_clip_range_fit.obj -MD -MP -MF core/$(DEPDIR)/cmdg-bmp_rawdata_clip_range_fit.Tpo -c -o core/cmdg-bmp_rawdata_clip_range_fit.obj `if test -f 'core/bmp_rawdata_clip_range_fit.c'; then $(CYGPATH_W) 'core/bmp_rawdata_clip_range_fit.c'; else $(CYGPATH_W) '$(srcdir)/core/bmp_rawdata_clip_range_fit.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) core/$(DEPDIR)/cmdg-bmp_rawdata_clip_range_fit.Tpo core/$(DEPDIR)/cmdg-bmp_rawdata_clip_range_fit.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='core/bmp_rawdata_clip_range_fit.c' object='core/cmdg-bmp_rawdata_clip_range_fit.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-vt100.obj `if test -f 'vt100.c'; then $(CYGPATH_W) 'vt100.c'; else $(CYGPATH_W) '$(srcdir)/vt100.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o core/cmdg-bmp_rawdata_clip_range_fit.obj `if test -f 'core/bmp_rawdata_clip_range_fit.c'; then $(CYGPATH_W) 'core/bmp_rawdata_clip_range_fit.c'; else $(CYGPATH_W) '$(srcdir)/core/bmp_rawdata_clip_range_fit.c'; fi`
 
-cmdg-escseq.o: escseq.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-escseq.o -MD -MP -MF $(DEPDIR)/cmdg-escseq.Tpo -c -o cmdg-escseq.o `test -f 'escseq.c' || echo '$(srcdir)/'`escseq.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-escseq.Tpo $(DEPDIR)/cmdg-escseq.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='escseq.c' object='cmdg-escseq.o' libtool=no @AMDEPBACKSLASH@
+core/cmdg-lsb0_bit_helper.o: core/lsb0_bit_helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT core/cmdg-lsb0_bit_helper.o -MD -MP -MF core/$(DEPDIR)/cmdg-lsb0_bit_helper.Tpo -c -o core/cmdg-lsb0_bit_helper.o `test -f 'core/lsb0_bit_helper.c' || echo '$(srcdir)/'`core/lsb0_bit_helper.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) core/$(DEPDIR)/cmdg-lsb0_bit_helper.Tpo core/$(DEPDIR)/cmdg-lsb0_bit_helper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='core/lsb0_bit_helper.c' object='core/cmdg-lsb0_bit_helper.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-escseq.o `test -f 'escseq.c' || echo '$(srcdir)/'`escseq.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o core/cmdg-lsb0_bit_helper.o `test -f 'core/lsb0_bit_helper.c' || echo '$(srcdir)/'`core/lsb0_bit_helper.c
 
-cmdg-escseq.obj: escseq.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-escseq.obj -MD -MP -MF $(DEPDIR)/cmdg-escseq.Tpo -c -o cmdg-escseq.obj `if test -f 'escseq.c'; then $(CYGPATH_W) 'escseq.c'; else $(CYGPATH_W) '$(srcdir)/escseq.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-escseq.Tpo $(DEPDIR)/cmdg-escseq.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='escseq.c' object='cmdg-escseq.obj' libtool=no @AMDEPBACKSLASH@
+core/cmdg-lsb0_bit_helper.obj: core/lsb0_bit_helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT core/cmdg-lsb0_bit_helper.obj -MD -MP -MF core/$(DEPDIR)/cmdg-lsb0_bit_helper.Tpo -c -o core/cmdg-lsb0_bit_helper.obj `if test -f 'core/lsb0_bit_helper.c'; then $(CYGPATH_W) 'core/lsb0_bit_helper.c'; else $(CYGPATH_W) '$(srcdir)/core/lsb0_bit_helper.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) core/$(DEPDIR)/cmdg-lsb0_bit_helper.Tpo core/$(DEPDIR)/cmdg-lsb0_bit_helper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='core/lsb0_bit_helper.c' object='core/cmdg-lsb0_bit_helper.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-escseq.obj `if test -f 'escseq.c'; then $(CYGPATH_W) 'escseq.c'; else $(CYGPATH_W) '$(srcdir)/escseq.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o core/cmdg-lsb0_bit_helper.obj `if test -f 'core/lsb0_bit_helper.c'; then $(CYGPATH_W) 'core/lsb0_bit_helper.c'; else $(CYGPATH_W) '$(srcdir)/core/lsb0_bit_helper.c'; fi`
 
-cmdg-lock.o: lock.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-lock.o -MD -MP -MF $(DEPDIR)/cmdg-lock.Tpo -c -o cmdg-lock.o `test -f 'lock.c' || echo '$(srcdir)/'`lock.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-lock.Tpo $(DEPDIR)/cmdg-lock.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lock.c' object='cmdg-lock.o' libtool=no @AMDEPBACKSLASH@
+cmdg-mpint.o: mpint.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-mpint.o -MD -MP -MF $(DEPDIR)/cmdg-mpint.Tpo -c -o cmdg-mpint.o `test -f 'mpint.c' || echo '$(srcdir)/'`mpint.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-mpint.Tpo $(DEPDIR)/cmdg-mpint.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='mpint.c' object='cmdg-mpint.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-lock.o `test -f 'lock.c' || echo '$(srcdir)/'`lock.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-mpint.o `test -f 'mpint.c' || echo '$(srcdir)/'`mpint.c
 
-cmdg-lock.obj: lock.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-lock.obj -MD -MP -MF $(DEPDIR)/cmdg-lock.Tpo -c -o cmdg-lock.obj `if test -f 'lock.c'; then $(CYGPATH_W) 'lock.c'; else $(CYGPATH_W) '$(srcdir)/lock.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-lock.Tpo $(DEPDIR)/cmdg-lock.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='lock.c' object='cmdg-lock.obj' libtool=no @AMDEPBACKSLASH@
+cmdg-mpint.obj: mpint.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-mpint.obj -MD -MP -MF $(DEPDIR)/cmdg-mpint.Tpo -c -o cmdg-mpint.obj `if test -f 'mpint.c'; then $(CYGPATH_W) 'mpint.c'; else $(CYGPATH_W) '$(srcdir)/mpint.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-mpint.Tpo $(DEPDIR)/cmdg-mpint.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='mpint.c' object='cmdg-mpint.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-lock.obj `if test -f 'lock.c'; then $(CYGPATH_W) 'lock.c'; else $(CYGPATH_W) '$(srcdir)/lock.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-mpint.obj `if test -f 'mpint.c'; then $(CYGPATH_W) 'mpint.c'; else $(CYGPATH_W) '$(srcdir)/mpint.c'; fi`
 
-cmdg-conf.o: conf.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-conf.o -MD -MP -MF $(DEPDIR)/cmdg-conf.Tpo -c -o cmdg-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-conf.Tpo $(DEPDIR)/cmdg-conf.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='conf.c' object='cmdg-conf.o' libtool=no @AMDEPBACKSLASH@
+cmdg-base64.o: base64.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-base64.o -MD -MP -MF $(DEPDIR)/cmdg-base64.Tpo -c -o cmdg-base64.o `test -f 'base64.c' || echo '$(srcdir)/'`base64.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-base64.Tpo $(DEPDIR)/cmdg-base64.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='base64.c' object='cmdg-base64.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-base64.o `test -f 'base64.c' || echo '$(srcdir)/'`base64.c
 
-cmdg-conf.obj: conf.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-conf.obj -MD -MP -MF $(DEPDIR)/cmdg-conf.Tpo -c -o cmdg-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-conf.Tpo $(DEPDIR)/cmdg-conf.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='conf.c' object='cmdg-conf.obj' libtool=no @AMDEPBACKSLASH@
+cmdg-base64.obj: base64.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-base64.obj -MD -MP -MF $(DEPDIR)/cmdg-base64.Tpo -c -o cmdg-base64.obj `if test -f 'base64.c'; then $(CYGPATH_W) 'base64.c'; else $(CYGPATH_W) '$(srcdir)/base64.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-base64.Tpo $(DEPDIR)/cmdg-base64.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='base64.c' object='cmdg-base64.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-base64.obj `if test -f 'base64.c'; then $(CYGPATH_W) 'base64.c'; else $(CYGPATH_W) '$(srcdir)/base64.c'; fi`
 
-cmdg-ptmx.o: ptmx.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-ptmx.o -MD -MP -MF $(DEPDIR)/cmdg-ptmx.Tpo -c -o cmdg-ptmx.o `test -f 'ptmx.c' || echo '$(srcdir)/'`ptmx.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-ptmx.Tpo $(DEPDIR)/cmdg-ptmx.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ptmx.c' object='cmdg-ptmx.o' libtool=no @AMDEPBACKSLASH@
+cmdg-rand.o: rand.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-rand.o -MD -MP -MF $(DEPDIR)/cmdg-rand.Tpo -c -o cmdg-rand.o `test -f 'rand.c' || echo '$(srcdir)/'`rand.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-rand.Tpo $(DEPDIR)/cmdg-rand.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rand.c' object='cmdg-rand.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-ptmx.o `test -f 'ptmx.c' || echo '$(srcdir)/'`ptmx.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-rand.o `test -f 'rand.c' || echo '$(srcdir)/'`rand.c
 
-cmdg-ptmx.obj: ptmx.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-ptmx.obj -MD -MP -MF $(DEPDIR)/cmdg-ptmx.Tpo -c -o cmdg-ptmx.obj `if test -f 'ptmx.c'; then $(CYGPATH_W) 'ptmx.c'; else $(CYGPATH_W) '$(srcdir)/ptmx.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-ptmx.Tpo $(DEPDIR)/cmdg-ptmx.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='ptmx.c' object='cmdg-ptmx.obj' libtool=no @AMDEPBACKSLASH@
+cmdg-rand.obj: rand.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-rand.obj -MD -MP -MF $(DEPDIR)/cmdg-rand.Tpo -c -o cmdg-rand.obj `if test -f 'rand.c'; then $(CYGPATH_W) 'rand.c'; else $(CYGPATH_W) '$(srcdir)/rand.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-rand.Tpo $(DEPDIR)/cmdg-rand.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rand.c' object='cmdg-rand.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-ptmx.obj `if test -f 'ptmx.c'; then $(CYGPATH_W) 'ptmx.c'; else $(CYGPATH_W) '$(srcdir)/ptmx.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-rand.obj `if test -f 'rand.c'; then $(CYGPATH_W) 'rand.c'; else $(CYGPATH_W) '$(srcdir)/rand.c'; fi`
+
+cmdg-cipher_helper.o: cipher_helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-cipher_helper.o -MD -MP -MF $(DEPDIR)/cmdg-cipher_helper.Tpo -c -o cmdg-cipher_helper.o `test -f 'cipher_helper.c' || echo '$(srcdir)/'`cipher_helper.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-cipher_helper.Tpo $(DEPDIR)/cmdg-cipher_helper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cipher_helper.c' object='cmdg-cipher_helper.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-cipher_helper.o `test -f 'cipher_helper.c' || echo '$(srcdir)/'`cipher_helper.c
+
+cmdg-cipher_helper.obj: cipher_helper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-cipher_helper.obj -MD -MP -MF $(DEPDIR)/cmdg-cipher_helper.Tpo -c -o cmdg-cipher_helper.obj `if test -f 'cipher_helper.c'; then $(CYGPATH_W) 'cipher_helper.c'; else $(CYGPATH_W) '$(srcdir)/cipher_helper.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-cipher_helper.Tpo $(DEPDIR)/cmdg-cipher_helper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cipher_helper.c' object='cmdg-cipher_helper.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-cipher_helper.obj `if test -f 'cipher_helper.c'; then $(CYGPATH_W) 'cipher_helper.c'; else $(CYGPATH_W) '$(srcdir)/cipher_helper.c'; fi`
+
+cmdg-puttykey.o: puttykey.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-puttykey.o -MD -MP -MF $(DEPDIR)/cmdg-puttykey.Tpo -c -o cmdg-puttykey.o `test -f 'puttykey.c' || echo '$(srcdir)/'`puttykey.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-puttykey.Tpo $(DEPDIR)/cmdg-puttykey.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='puttykey.c' object='cmdg-puttykey.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-puttykey.o `test -f 'puttykey.c' || echo '$(srcdir)/'`puttykey.c
+
+cmdg-puttykey.obj: puttykey.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-puttykey.obj -MD -MP -MF $(DEPDIR)/cmdg-puttykey.Tpo -c -o cmdg-puttykey.obj `if test -f 'puttykey.c'; then $(CYGPATH_W) 'puttykey.c'; else $(CYGPATH_W) '$(srcdir)/puttykey.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-puttykey.Tpo $(DEPDIR)/cmdg-puttykey.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='puttykey.c' object='cmdg-puttykey.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-puttykey.obj `if test -f 'puttykey.c'; then $(CYGPATH_W) 'puttykey.c'; else $(CYGPATH_W) '$(srcdir)/puttykey.c'; fi`
+
+cmdg-portab.o: portab.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-portab.o -MD -MP -MF $(DEPDIR)/cmdg-portab.Tpo -c -o cmdg-portab.o `test -f 'portab.c' || echo '$(srcdir)/'`portab.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-portab.Tpo $(DEPDIR)/cmdg-portab.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='portab.c' object='cmdg-portab.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-portab.o `test -f 'portab.c' || echo '$(srcdir)/'`portab.c
+
+cmdg-portab.obj: portab.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-portab.obj -MD -MP -MF $(DEPDIR)/cmdg-portab.Tpo -c -o cmdg-portab.obj `if test -f 'portab.c'; then $(CYGPATH_W) 'portab.c'; else $(CYGPATH_W) '$(srcdir)/portab.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-portab.Tpo $(DEPDIR)/cmdg-portab.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='portab.c' object='cmdg-portab.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-portab.obj `if test -f 'portab.c'; then $(CYGPATH_W) 'portab.c'; else $(CYGPATH_W) '$(srcdir)/portab.c'; fi`
+
+cmdg-log.o: log.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-log.o -MD -MP -MF $(DEPDIR)/cmdg-log.Tpo -c -o cmdg-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-log.Tpo $(DEPDIR)/cmdg-log.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='log.c' object='cmdg-log.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
+
+cmdg-log.obj: log.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-log.obj -MD -MP -MF $(DEPDIR)/cmdg-log.Tpo -c -o cmdg-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-log.Tpo $(DEPDIR)/cmdg-log.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='log.c' object='cmdg-log.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
+
+.cpp.o:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
+
+.cpp.obj:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -614,6 +774,8 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f core/$(DEPDIR)/$(am__dirstamp)
+	-rm -f core/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -623,13 +785,38 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/cmdg-cmdg.Po
-	-rm -f ./$(DEPDIR)/cmdg-conf.Po
-	-rm -f ./$(DEPDIR)/cmdg-escseq.Po
-	-rm -f ./$(DEPDIR)/cmdg-gtkview.Po
-	-rm -f ./$(DEPDIR)/cmdg-lock.Po
-	-rm -f ./$(DEPDIR)/cmdg-ptmx.Po
-	-rm -f ./$(DEPDIR)/cmdg-vt100.Po
+		-rm -f ./$(DEPDIR)/GVRAM.Po
+	-rm -f ./$(DEPDIR)/TVRAM.Po
+	-rm -f ./$(DEPDIR)/aes.Po
+	-rm -f ./$(DEPDIR)/bmp_helper.Po
+	-rm -f ./$(DEPDIR)/cipher_factory.Po
+	-rm -f ./$(DEPDIR)/cmdg-base64.Po
+	-rm -f ./$(DEPDIR)/cmdg-cipher_helper.Po
+	-rm -f ./$(DEPDIR)/cmdg-log.Po
+	-rm -f ./$(DEPDIR)/cmdg-mpint.Po
+	-rm -f ./$(DEPDIR)/cmdg-portab.Po
+	-rm -f ./$(DEPDIR)/cmdg-puttykey.Po
+	-rm -f ./$(DEPDIR)/cmdg-rand.Po
+	-rm -f ./$(DEPDIR)/cmdg-unicode.Po
+	-rm -f ./$(DEPDIR)/cmdg.Po
+	-rm -f ./$(DEPDIR)/config.Po
+	-rm -f ./$(DEPDIR)/gdk2_helper.Po
+	-rm -f ./$(DEPDIR)/gtk2_helper.Po
+	-rm -f ./$(DEPDIR)/gtk2view.Po
+	-rm -f ./$(DEPDIR)/intv.Po
+	-rm -f ./$(DEPDIR)/lock.Po
+	-rm -f ./$(DEPDIR)/mac_factory.Po
+	-rm -f ./$(DEPDIR)/mediator.Po
+	-rm -f ./$(DEPDIR)/queue.Po
+	-rm -f ./$(DEPDIR)/ringbuf.Po
+	-rm -f ./$(DEPDIR)/sha1.Po
+	-rm -f ./$(DEPDIR)/sha2.Po
+	-rm -f ./$(DEPDIR)/ssh2.Po
+	-rm -f ./$(DEPDIR)/vt100_handler.Po
+	-rm -f ./$(DEPDIR)/vt100_parser.Po
+	-rm -f core/$(DEPDIR)/cmdg-bmp_rawdata_clip_range_fit.Po
+	-rm -f core/$(DEPDIR)/cmdg-lsb0_bit_helper.Po
+	-rm -f core/$(DEPDIR)/cmdg-pixel_stream_calc_dirty.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -675,13 +862,38 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/cmdg-cmdg.Po
-	-rm -f ./$(DEPDIR)/cmdg-conf.Po
-	-rm -f ./$(DEPDIR)/cmdg-escseq.Po
-	-rm -f ./$(DEPDIR)/cmdg-gtkview.Po
-	-rm -f ./$(DEPDIR)/cmdg-lock.Po
-	-rm -f ./$(DEPDIR)/cmdg-ptmx.Po
-	-rm -f ./$(DEPDIR)/cmdg-vt100.Po
+		-rm -f ./$(DEPDIR)/GVRAM.Po
+	-rm -f ./$(DEPDIR)/TVRAM.Po
+	-rm -f ./$(DEPDIR)/aes.Po
+	-rm -f ./$(DEPDIR)/bmp_helper.Po
+	-rm -f ./$(DEPDIR)/cipher_factory.Po
+	-rm -f ./$(DEPDIR)/cmdg-base64.Po
+	-rm -f ./$(DEPDIR)/cmdg-cipher_helper.Po
+	-rm -f ./$(DEPDIR)/cmdg-log.Po
+	-rm -f ./$(DEPDIR)/cmdg-mpint.Po
+	-rm -f ./$(DEPDIR)/cmdg-portab.Po
+	-rm -f ./$(DEPDIR)/cmdg-puttykey.Po
+	-rm -f ./$(DEPDIR)/cmdg-rand.Po
+	-rm -f ./$(DEPDIR)/cmdg-unicode.Po
+	-rm -f ./$(DEPDIR)/cmdg.Po
+	-rm -f ./$(DEPDIR)/config.Po
+	-rm -f ./$(DEPDIR)/gdk2_helper.Po
+	-rm -f ./$(DEPDIR)/gtk2_helper.Po
+	-rm -f ./$(DEPDIR)/gtk2view.Po
+	-rm -f ./$(DEPDIR)/intv.Po
+	-rm -f ./$(DEPDIR)/lock.Po
+	-rm -f ./$(DEPDIR)/mac_factory.Po
+	-rm -f ./$(DEPDIR)/mediator.Po
+	-rm -f ./$(DEPDIR)/queue.Po
+	-rm -f ./$(DEPDIR)/ringbuf.Po
+	-rm -f ./$(DEPDIR)/sha1.Po
+	-rm -f ./$(DEPDIR)/sha2.Po
+	-rm -f ./$(DEPDIR)/ssh2.Po
+	-rm -f ./$(DEPDIR)/vt100_handler.Po
+	-rm -f ./$(DEPDIR)/vt100_parser.Po
+	-rm -f core/$(DEPDIR)/cmdg-bmp_rawdata_clip_range_fit.Po
+	-rm -f core/$(DEPDIR)/cmdg-lsb0_bit_helper.Po
+	-rm -f core/$(DEPDIR)/cmdg-pixel_stream_calc_dirty.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
