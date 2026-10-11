@@ -4,6 +4,23 @@
 	           build setting (configure.ac Makefile.am ...) fixing only.
 	        2) Date was written on GMT(+0000).
 
+2026-10-11  mb3h
+
+	* [0.1.0] freezed.
+
+2026-10-11  mb3h
+
+	Restructuring.
+	1) Restructure design (with rewriting or gathering and refactoring)
+	2) Rename filename
+	3) Temporary separate abount SSH (pending/)
+	4) Separate for removing soon (obsolete/)
+
+2023-04-19  mb3h
+
+	* [0.0.1] freezed.
+
+
 2023-04-19  mb3h
 
 	Refactoring and many fixes.

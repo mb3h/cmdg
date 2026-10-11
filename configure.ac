@@ -3,12 +3,12 @@
 
 AC_PREREQ([2.69])
 AC_INIT([cmdg], [0.0])
-AC_CONFIG_SRCDIR([src/cmdg.cpp])
+#AC_CONFIG_SRCDIR([src/cmdg.c])
 AM_INIT_AUTOMAKE([subdir-objects foreign])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
-AC_PROG_CXX
+#AC_PROG_CXX
 AC_PROG_CC
 
 # Checks for libraries.
@@ -55,9 +55,9 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 TARGET='
 gdk_cairo_create
-gdk_cairo_set_source_pixbuf
-gdk_cairo_set_source_color
 gdk_cairo_rectangle
+gdk_cairo_set_source_color
+gdk_cairo_set_source_pixbuf
 gdk_draw_layout
 gdk_gc_set_foreground
 gdk_pixbuf_new_from_data
@@ -66,26 +66,24 @@ cairo_destroy
 cairo_fill
 cairo_paint
 pango_layout_new
+pango_layout_set_attributes
 pango_layout_set_font_description
 pango_layout_set_text
-pango_layout_set_attributes
-pango_attr_list_unref
-pango_attr_list_new
-pango_attr_list_insert
 pango_attr_background_new
+pango_attr_list_insert
+pango_attr_list_new
+pango_attr_list_unref
+pango_attr_weight_new
 pango_font_description_free
 pango_font_description_from_string
-pango_font_metrics_unref
 pango_font_metrics_get_approximate_digit_width
 pango_font_metrics_get_ascent
 pango_font_metrics_get_descent
+pango_font_metrics_get_height
+pango_font_metrics_unref
 g_idle_add
 g_object_unref
-g_object_get_qdata
-g_object_set_qdata
 g_signal_connect
-gtk_init
-gtk_main_quit
 gtk_widget_destroy
 gtk_widget_get_pango_context
 gtk_widget_get_parent
@@ -95,8 +93,10 @@ gtk_widget_modify_font
 gtk_widget_set_size_request
 gtk_widget_show
 gtk_widget_show_all
+gtk_window_get_position
+gtk_window_get_size
+gtk_window_move
 gtk_window_new
-gtk_window_set_geometory_hints
 gtk_window_set_policy
 gtk_accel_group_new
 gtk_box_pack_end
@@ -104,20 +104,13 @@ gtk_box_pack_start
 gtk_container_add
 gtk_container_get_children
 gtk_drawing_area_new
-gtk_hbox_new
+gtk_init
 gtk_item_factory_new
 gtk_item_factory_create_items
 gtk_item_factory_get_widget
-gtk_image_new_from_stock
-gtk_label_new
-gtk_notebook_new
-gtk_notebook_append_page
-gtk_notebook_get_current_page
-gtk_notebook_get_nth_page
-gtk_notebook_popup_enable
-gtk_notebook_set_scrollable
-gtk_notebook_set_show_border
-gtk_notebook_set_tab_pos
+gtk_main
+gtk_main_quit
+gtk_menu_get_attach_widget
 gtk_vbox_new
 '
 AC_CHECK_FUNCS([dup2 gettimeofday memchr memmove memset mkdir socket strchr strcspn strdup strerror strspn strtoul wcwidth $TARGET])

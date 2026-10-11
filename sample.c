@@ -232,7 +232,9 @@ fprintf (stderr, "!tcgetattr() @err=%d'%s'" "\n", errno, strerror (errno));
 		fflush (stdout); // must be need
 		_setmode (_fileno (stdout), bBinModeOld);
 #endif
+		fprintf (stdout, "\033[64C"); // TODO: right calculation <- temporary 
 		fprintf (stdout, "R=00" "\n");
+		fprintf (stdout, "\n\n\n\n\n\n\n"); // TODO: right calculation <- temporary 
 
 		fprintf (stdout, "RGB=000099 .. FFFFFF" "\n");
 #ifdef WIN32
@@ -259,7 +261,9 @@ fprintf (stderr, "!tcgetattr() @err=%d'%s'" "\n", errno, strerror (errno));
 		fflush (stdout); // must be need
 		_setmode (_fileno (stdout), bBinModeOld);
 #endif
+		fprintf (stdout, "\033[64C"); // TODO: right calculation <- temporary 
 		fprintf (stdout, "R=00" "\n");
+		fprintf (stdout, "\n\n\n\n\n\n\n"); // TODO: right calculation <- temporary 
 	} while (0);
 
 	if (lpvBlue00to) {

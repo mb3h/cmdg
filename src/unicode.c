@@ -1,19 +1,13 @@
 #define _XOPEN_SOURCE 600 // SUSv3 (includes POSIX.1-2001) wcwidth
 #include <features.h>
-
 #include <stdint.h>
+
 #include <wchar.h> // wchar_t wcwidth
 #include "unicode.h"
 
-#include "vt100.h"
-#include "portab.h"
+typedef uint32_t u32, u21;
 
-#include <stdbool.h>
-typedef uint32_t u32;
-typedef uint16_t u16;
-
-///////////////////////////////////////////////////////////////////////////////
-// non-state
+///////////////////////////////////////////////////////////////
 
 int wcwidth_bugfix (wchar_t c)
 {
@@ -32,12 +26,22 @@ int wcwidth_bugfix (wchar_t c)
 	return wcwidth (c);
 }
 
-u16 utf8to16 (u32 u)
+u21 u21from (u32 utf8)
 {
-	if (u < 0x100)
-		return (u16)u;
-	else if (u < 0x10000)
-		return (u16)(0x0FC0 & u >> 2 | 0x003F & u);
-	else /*if (u < 0x1000000)*/
-		return (u16)(0xF000 & u >> 4 | 0x0FC0 & u >> 2 | 0x003F & u);
+u21 unicode;
+	if (utf8 < 0x100)
+		unicode = (u21)utf8;
+	else if (utf8 < 0x10000)
+		unicode = (u21)(0xFC0 & utf8 >>  8 -6
+		              | 0x03F & utf8);
+	else if (utf8 < 0x1000000)
+		unicode = (u21)(0xF000 & utf8 >> 16 -12
+		              | 0x0FC0 & utf8 >>  8 -6
+		              | 0x003F & utf8);
+	else // NOTE: not tested
+		unicode = (u21)(0x70000 & utf8 >> 24 -16
+		              | 0x0F000 & utf8 >> 16 -12
+		              | 0x00FC0 & utf8 >>  8 -6
+		              | 0x0003F & utf8);
+	return unicode;
 }

@@ -45,8 +45,8 @@ typedef int32_t s32;
 typedef int16_t s16;
 
 #define arraycountof(x) (sizeof(x)/sizeof((x)[0]))
-#define RUPDIV(a, value) (((value) + (a) -1) / (a))
-#define PADDING(a, value) ((a) -1 - ((value) * (a) + (a) -1) % (a))
+#define RUPDIV(a,x) (((x) + (a) -1) / (a))
+#define PADDING(a,x) ((a) -1 - ((x) +(a) -1) % (a))
 #define RGB(r,g,b) (0xff0000 & (r) << 16 | 0xff00 & (g) << 8 | 0xff & (b))
 
 static void store_le32 (void *p, u32 val)
@@ -433,6 +433,7 @@ u32 ms;
 		_setmode (_fileno (stdout), bBinModeOld);
 #endif
 		fprintf (stdout, /*"R=00"*/ "\n");
+		fprintf (stdout, "\n\n\n\n\n\n\n"); // TODO: right calculation <- temporary 
 	} while (0);
 
 	if (lpv) {
