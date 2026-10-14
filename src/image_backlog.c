@@ -4,6 +4,7 @@
 
 #include "image_backlog.h"
 #include "helper/pow2_ge.h"
+#include "memory_usage.h"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -221,10 +222,13 @@ void *ptr; unsigned size, old_max, now_len;
 	// common
 unsigned needed_max = pow2_ge(now_len +len);
 	if (old_max < needed_max) {
+		if (ptr)
+			imagelog_usage->remove (m_->list);
 		if (NULL == ptr)
 			ptr = malloc (needed_max * size);
 		else
 			ptr = realloc (m_->list, needed_max * size);
+		imagelog_usage->add (ptr, needed_max * size);
 	}
 	now_len += len;
 
@@ -358,6 +362,7 @@ entry_s *appending
 		appending->x_grid = m_->x_grid;
 		appending->y_grid = m_->y_grid;
 		appending->image = (u8 *)malloc (end_of_body);
+		imagelog_usage->add (appending->image, end_of_body);
 		// start receiving body
 		memcpy (appending->image, m_->bmphdr, end_of_header);
 	}

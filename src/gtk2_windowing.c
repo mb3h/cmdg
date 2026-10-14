@@ -8,13 +8,14 @@
 #include "gtk2_windowing.h"
 #include "on_ptout.h"
 #include "gtk2_font.h"
+#include "memory_usage.h"
 
 #include <stdbool.h>
 #include <stdlib.h> // exit
 #include <string.h>
 #include <errno.h>
 typedef uint32_t u32, u24;
-typedef  uint8_t u8, u1;
+typedef  uint8_t u8, u1, u6;
 typedef uint16_t u16, u9, u10, u12;
 typedef uint64_t u64;
 typedef  int32_t s32;
@@ -22,20 +23,22 @@ typedef  int32_t s32;
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #define max(a,b) ((a) < (b) ? (b) : (a))
 #define usizeof(x) (unsigned)sizeof(x) // part of 64bit supports.
+#define ustrlen(x) (unsigned)strlen(x) // part of 64bit supports.
 #define arraycountof(x) (sizeof(x)/(sizeof((x)[0])))
 
 #define swap(a, b, type__) do { type__ t__; t__ = a, a = b, b = t__; } while (0)
-#define ALIGN32(x) (-32 & (x) +32 -1)
-#define PADDING32(x) (ALIGN32(x) - (x))
+#define   ALIGN(a,x) ((x)+(a)-1 - ((x)+(a)-1)%(a))
+#define PADDING(a,x) (    (a)-1 - ((x)+(a)-1)%(a))
 
-#define RGB24(r,g,b) (0xff0000 & (r) << 16 | 0xff00 & (g) << 8 | 0xff & (b))
+#define RGB24(r,g,b) (0xff0000 & (r) << 16 \
+                    | 0x00ff00 & (g) << 8 \
+                    | 0x0000ff & (b))
 #define MONO(w) RGB24(w,w,w)
 ///////////////////////////////////////////////////////////////
 // configuration
 
-#define IDLE_INTERVAL_MS 16 // [ms] (near 60Hz)
-#define MENU_BG RGB24(60,59,55)
-#define HEIGHT_STATUS_BAR 21
+#define    IDLE_INTERVAL_MS   16 // [ms] (near 60Hz)
+#define SHOWMEM_INTERVAL_MS 2000 // [ms]
 
 ///////////////////////////////////////////////////////////////
 // VT100
@@ -61,6 +64,7 @@ printf (VTRR "ASSERT" VTO ": " #expr " [%s]" "\n", __func__); \
 
 #define unexpected assert
 #define caller_bug assert
+#define   flow_bug assert
 
 ///////////////////////////////////////////////////////////////
 // helper
@@ -96,30 +100,62 @@ GtkWindow *root_window
 }
 
 ///////////////////////////////////////////////////////////////
+// utility
+
+typedef struct {
+	unsigned long_tick;
+	unsigned short_tick;
+	unsigned tick;
+} trans_timer_s;
+
+static void _trans_timer_ctor (trans_timer_s *m_,
+                               unsigned short_tick,
+                               unsigned long_tick)
+{
+	m_->short_tick = short_tick;
+	m_->long_tick = long_tick;
+	m_->tick = 0;
+}
+
+static bool _trans_timer_feed (trans_timer_s *m_)
+{
+	m_->tick += m_->short_tick;
+	if (m_->tick < m_->long_tick)
+		return false;
+	m_->tick %= m_->long_tick;
+	return true;
+}
+
+///////////////////////////////////////////////////////////////
 // singlton memory
 
 typedef struct {
+	trans_timer_s idle2showmem;
 	bool (*on_key_gdk2) (u16 keycode, u1 is_keydown);
 	GtkWindow *app;
 	GtkVBox *vbox;
 	GtkDrawingArea *da;
+	GtkDrawingArea *da_statusbar;
+	PangoLayout *da_statusbar_layout;
 	void (*on_gui_resized) (u12 da_width, u12 da_height);
 	u16 da_width;
 	u16 da_height;
 	u8 menubar_height;
-	u8 da_sbar_height;
+	u8 da_statusbar_height;
 	u8 is_gdk_exposed_app       :1;
 	u8 is_gdk_exposed_vbox      :1;
 //	u8 is_gdk_exposed_menubar   :1;
 	u8 is_gdk_exposed_statusbar :1;
 	u8 is_da_resizing_started   :1;
 	u8 padding                  :4;
+	u8 statusbar_lf_width;
+	u8 statusbar_lf_height;
 	bool is_waiting_idle;
 	bool app_destroyed;
 #ifdef __i386__
 //	u8 align4_padding[];
 #else //def __x86_64__
-	u8 align8_padding[7];
+	u8 align8_padding[5];
 #endif
 } gtk2_windowing_s;
 
@@ -137,13 +173,12 @@ gtk2_windowing_s *m_ = &s_singlton;
 int vbox_width, vbox_height; // NOTE: (*1)
 	vbox_width = gdk_window_get_width (GTK_WIDGET(vbox)->window);
 	vbox_height = gdk_window_get_height (GTK_WIDGET(vbox)->window);
-int menu_and_sbar_height
-	= m_->menubar_height +m_->da_sbar_height;
 
 	if (true_da_width)
 		*true_da_width = vbox_width;
 	if (true_da_height)
-		*true_da_height = vbox_height -menu_and_sbar_height;
+		*true_da_height = vbox_height -m_->menubar_height
+		                              -m_->da_statusbar_height;
 }
 
 static gboolean _on_idle (gpointer da)
@@ -208,6 +243,12 @@ bool is_success = false;
 unexpected(is_success)
 	if (is_success)
 		m_->is_waiting_idle = true;
+
+	if (_trans_timer_feed (&m_->idle2showmem)) {
+GdkWindow *window
+		= GTK_WIDGET(m_->da_statusbar)->window;
+		gdk_window_invalidate_rect (window, NULL, FALSE);
+	}
 //_unlock()
 	}
 	return G_SOURCE_CONTINUE;
@@ -346,6 +387,106 @@ GdkGC *fgcl_gc
 	return TRUE; // GDK_EVENT_STOP
 }
 
+// parallel available: 4
+static const char *_bytes_size_tostr (unsigned n)
+{
+static char s_text[4][7 +1 +8]; // 7='100.0MB' 8=margin
+static unsigned s_i = 0;
+unsigned i
+	= ++s_i % 4;
+
+int c;
+	if (n < 0x100000)
+		c = 'K';
+	else
+		c = 'M', n /= 0x400;
+
+	sprintf (s_text[i], "%d.%d%cB",
+	         n / 1024, (n % 1024) * 10 / 1024, c);
+
+	return s_text[i];
+}
+
+static void _draw_memory_usage (GdkWindow *window,
+                                GdkGC *fgcl_gc,
+                                PangoLayout *layout,
+                                int exposed_x,
+                                int exposed_width)
+{
+gtk2_windowing_s *m_ = &s_singlton;
+
+u24 fgcl24 = MONO(0);
+
+cairo_t *cr
+	= gdk_cairo_create (GDK_DRAWABLE(window));
+
+GdkColor fgcl;
+	_gdk_color_from_rgb24 (&fgcl, fgcl24);
+
+	// PangoLayout: text
+char s[6 +7 +8 +7 +1 +35]; // 7='100.0MB' 35=margin
+	sprintf (s, "text: %s image: %s",
+	         _bytes_size_tostr (textlog_usage->get()),
+	         _bytes_size_tostr (imagelog_usage->get()));
+unsigned n
+	= ustrlen (s);
+
+static const unsigned edge_pitch = 1;
+unsigned drawable_begin = edge_pitch;
+unsigned drawable_end
+	= gdk_window_get_width (window) -edge_pitch;
+
+	// fit to drawable width
+int delta
+	= max(drawable_begin, exposed_x)
+	                     -exposed_x;
+	if (0 < delta)
+		exposed_x += delta, exposed_width -= delta;
+	exposed_width = min(drawable_end, exposed_x +exposed_width)
+	                                 -exposed_x;
+
+	// alignment to font width
+	delta = PADDING(m_->statusbar_lf_width, drawable_end -exposed_x);
+	exposed_x -= delta, exposed_width += delta;
+	if (exposed_x < drawable_begin)
+		exposed_x += m_->statusbar_lf_width,
+		exposed_width -= m_->statusbar_lf_width;
+	exposed_width += PADDING(m_->statusbar_lf_width, exposed_width);
+flow_bug(exposed_x +exposed_width <= drawable_end)
+
+	//
+unsigned supposed_to_draw
+	= (unsigned)(drawable_end -exposed_x) / m_->statusbar_lf_width;
+unsigned skip = 0;
+	if (supposed_to_draw <= n)
+		skip = n -supposed_to_draw;
+	else if (n <= supposed_to_draw -exposed_width / m_->statusbar_lf_width)
+		return;
+	else /*if (n < supposed_to_draw)*/ {
+unsigned text_not_drawn
+		= supposed_to_draw -n;
+		exposed_x     += text_not_drawn * m_->statusbar_lf_width;
+		exposed_width -= text_not_drawn * m_->statusbar_lf_width;
+	}
+
+	pango_layout_set_text (layout, s +skip,
+	                       exposed_width / m_->statusbar_lf_width);
+
+	// GdkGC: text color
+	gdk_gc_set_foreground (fgcl_gc, &fgcl);
+
+	// gdk: drawing
+gint y
+	= max(m_->da_statusbar_height,
+	      m_->statusbar_lf_height +edge_pitch * 2)
+	-    (m_->statusbar_lf_height +edge_pitch);
+	gdk_draw_layout (GDK_DRAWABLE(window),
+	                 fgcl_gc,
+	                 exposed_x, y, layout);
+
+	cairo_destroy (cr);
+}
+
 static gint _on_expose_statusbar (GtkWidget *statusbar,
                                   GdkEventExpose *event,
                                   gpointer data)
@@ -353,6 +494,9 @@ static gint _on_expose_statusbar (GtkWidget *statusbar,
 gtk2_windowing_s *m_ = &s_singlton;
 
 	m_->is_gdk_exposed_statusbar = 1;
+GdkGC *fgcl_gc
+	= statusbar->style->text_gc[statusbar->state];
+	_draw_memory_usage (event->window, fgcl_gc, m_->da_statusbar_layout, event->area.x, event->area.width);
 	return FALSE; // CHECKED: TRUE also doesn't break event chain
 }
 
@@ -409,6 +553,7 @@ static bool _create_gui_gtk2 (
   bool (*on_key_gdk2) (u16 keycode, u1 is_keydown)
 , void (*on_gui_resized) (u12 da_width, u12 da_height)
 , u12 ws_x, u12 ws_y
+, u6 statusbar_height
 )
 {
 gtk2_windowing_s *m_ = &s_singlton;
@@ -418,9 +563,6 @@ GtkWidget *app;
 	if (NULL == (app = gtk_window_new (GTK_WINDOW_TOPLEVEL)))
 		return false;
 	m_->app = GTK_WINDOW(app);
-GdkColor menu_bgcl;
-	_gdk_color_from_rgb24 (&menu_bgcl, MENU_BG);
-	gtk_widget_modify_bg (app, GTK_STATE_NORMAL, &menu_bgcl);
 	gtk_window_set_policy (GTK_WINDOW(app), TRUE, TRUE, TRUE);
 	g_signal_connect (app, "destroy",
 	                  G_CALLBACK(_on_destroy), NULL);
@@ -431,8 +573,13 @@ GdkColor menu_bgcl;
 	g_signal_connect (app, "configure_event",
 	                  G_CALLBACK(_on_configure), NULL);
 
-	// GtkBox(V) (1/3) GtkMenuBar
-# if 1
+	// GtkWindow -> GtkBox(V)
+GtkWidget *vbox
+	= gtk_vbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER(app), vbox);
+	// {
+
+	//    GtkBox(V) (1/3) GtkMenuBar
 GtkItemFactoryEntry menu_items[] = { {
 	/* .path .accelerator .callback .callback_action .item_type
 	   .extra_data */
@@ -446,20 +593,19 @@ GtkItemFactoryEntry menu_items[] = { {
 GtkAccelGroup *accel_group
 	= gtk_accel_group_new ();
 GtkItemFactory *factory
-	= gtk_item_factory_new (GTK_TYPE_MENU_BAR, "<Main>", accel_group);
-	gtk_item_factory_create_items (factory, arraycountof(menu_items), menu_items, (void *)NULL);
+	= gtk_item_factory_new (GTK_TYPE_MENU_BAR,
+	                        "<Main>",
+	                        accel_group);
+	gtk_item_factory_create_items (factory,
+	                               arraycountof(menu_items),
+	                               menu_items,
+	                               (void *)NULL);
 GtkWidget *menubar
 	= gtk_item_factory_get_widget (factory, "<Main>");
-# endif
-
-	// GtkWindow -> GtkBox(V)
-GtkWidget *vbox
-	= gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER(app), vbox);
 	gtk_box_pack_start (GTK_BOX(vbox), GTK_WIDGET(menubar), FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET(menubar));
 
-	// GtkBox(V) (2/3) GtkDrawingArea
+	//    GtkBox(V) (2/3) GtkDrawingArea
 GtkWidget *da
 	= gtk_drawing_area_new ();
 	g_signal_connect (da       , "expose_event",
@@ -467,14 +613,14 @@ GtkWidget *da
 	gtk_box_pack_start (GTK_BOX(vbox), da, FALSE, FALSE, 0);
 	gtk_widget_show (da);
 
-	// GtkBox(V) (3/3) GtkDrawingArea
+	//    GtkBox(V) (3/3) GtkDrawingArea
 GtkWidget *statusbar
 	= gtk_drawing_area_new ();
-	gtk_widget_set_size_request (statusbar, 1, HEIGHT_STATUS_BAR);
+	gtk_widget_set_size_request (statusbar, 1, statusbar_height);
 	gtk_box_pack_end (GTK_BOX(vbox), statusbar, FALSE, FALSE, 0);
-//	g_signal_connect (statusbar, "expose_event", G_CALLBACK(statusbar_on_expose), NULL);
 	gtk_widget_show (statusbar);
 
+	// }
 	gtk_widget_show (vbox);
 	gtk_window_move (GTK_WINDOW(app), ws_x, ws_y);
 
@@ -487,11 +633,15 @@ GtkWidget *statusbar
 	g_signal_connect (statusbar, "expose_event",
 	                  G_CALLBACK(_on_expose_statusbar), NULL);
 
-	gdk_threads_add_timeout (IDLE_INTERVAL_MS, _on_timer, (gpointer)da);
+	gdk_threads_add_timeout (IDLE_INTERVAL_MS,
+	                         _on_timer, (gpointer)da);
+	_trans_timer_ctor (&m_->idle2showmem,
+	                   IDLE_INTERVAL_MS, SHOWMEM_INTERVAL_MS);
 
 	m_->vbox = GTK_VBOX(vbox);
 	m_->da = GTK_DRAWING_AREA(da);
-	m_->da_sbar_height = HEIGHT_STATUS_BAR;
+	m_->da_statusbar = GTK_DRAWING_AREA(statusbar);
+	m_->da_statusbar_height = statusbar_height;
 	m_->on_gui_resized = on_gui_resized;
 	return true;
 }
@@ -499,11 +649,13 @@ GtkWidget *statusbar
 ///////////////////////////////////////////////////////////////
 // interface (forwarder)
 
-static GtkDrawingArea *_show_gui_gtk2 (u12 da_width, u16 da_height,
-                                       u24 bgcl24)
+static GtkDrawingArea *_show_gui_gtk2 (u12 da_width, u12 da_height,
+                                       u24 bgcl24,
+                                       const char *statusbar_font_name)
 {
 gtk2_windowing_s *m_ = &s_singlton;
 
+caller_bug(statusbar_font_name)
 	gtk_widget_set_size_request (GTK_WIDGET(m_->da),
 	                             da_width, da_height); // PENDING: (*3)
 	gtk_widget_show_all (GTK_WIDGET(m_->app));
@@ -511,6 +663,13 @@ gtk2_windowing_s *m_ = &s_singlton;
 GdkColor bgcl;
 	_gdk_color_from_rgb24 (&bgcl, bgcl24);
 	gtk_widget_modify_bg (GTK_WIDGET(m_->da), GTK_STATE_NORMAL, &bgcl);
+FONT_SIZE font;
+	m_->da_statusbar_layout =
+	   gtk_widget_set_pango_font (GTK_WIDGET(m_->da_statusbar),
+	                              statusbar_font_name, &font);
+	m_->statusbar_lf_width = (u8)font.approximate_digit_width;
+	m_->statusbar_lf_height = (u8)(max(font.height,
+	                                   font.ascent + font.descent));
 
 	return m_->da;
 }

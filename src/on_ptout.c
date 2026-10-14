@@ -9,6 +9,7 @@
 #include "bpp16.h"
 #include "bpp32.h"
 #include "helper/pow2_ge.h"
+#include "memory_usage.h"
 
 #include <gtk/gtk.h>
 #include "on_ptout.h"
@@ -1173,9 +1174,12 @@ on_ptout_s *m_ = &s_singlton;
 unsigned cb
 	= _save_frontend (NULL);
 	if (m_->stdscrn_max < pow2_ge(cb)) {
+		if (m_->stdscrn)
+			textlog_usage->remove (m_->stdscrn);
 		m_->stdscrn = (NULL == m_->stdscrn)
 		            ? malloc (pow2_ge(cb))
 		            : realloc (m_->stdscrn, pow2_ge(cb));
+		textlog_usage->add (m_->stdscrn, pow2_ge(cb));
 no_memory(m_->stdscrn)
 		m_->stdscrn_max = pow2_ge(cb);
 	}
@@ -1617,10 +1621,13 @@ caller_bug(cr)
 unsigned needed_clip_tmp
 	= ALIGN(4, gtk2_font->width() * 3) * gtk2_font->height();
 	if (! (needed_clip_tmp <= m_->bpp24_clip_max)) {
+		if (m_->bpp24_clip)
+			imagelog_usage->remove (m_->bpp24_clip);
 		if (NULL == m_->bpp24_clip)
 			m_->bpp24_clip = malloc (pow2_ge(needed_clip_tmp));
 		else
 			m_->bpp24_clip = realloc (m_->bpp24_clip, pow2_ge(needed_clip_tmp));
+		imagelog_usage->add (m_->bpp24_clip, pow2_ge(needed_clip_tmp));
 		m_->bpp24_clip_max = pow2_ge(needed_clip_tmp);
 	}
 

@@ -1,11 +1,13 @@
 #ifndef CONF_H_INCLUDED__
 #define CONF_H_INCLUDED__
 
-#define CONF_FONT_NAME "font_name"
-#define CONF_WS_WIDTH  "ws_width"
-#define CONF_WS_HEIGHT "ws_height"
-#define CONF_WS_X      "ws_x"
-#define CONF_WS_Y      "ws_y"
+#define CONF_FONT_NAME    "font_name"
+#define CONF_WS_WIDTH     "ws_width"
+#define CONF_WS_HEIGHT    "ws_height"
+#define CONF_WS_X         "ws_x"
+#define CONF_WS_Y         "ws_y"
+#define CONF_SB_HEIGHT    "statusbar_height"
+#define CONF_SB_FONT_NAME "statusbar_font_name"
 
 /* Readability sugar.
    Never use 'READABILITY_SUGAR_CONF' directly,

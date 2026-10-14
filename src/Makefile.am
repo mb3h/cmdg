@@ -20,5 +20,5 @@ cmdg_SOURCES = cmdg.c appconst.h \
                gtk2_font.h image_backlog.h \
                bpp1.c bpp8.c bpp16.c bpp32.c \
                bpp1.h bpp8.h bpp16.h bpp32.h \
-               unicode.c helper/pow2_ge.c \
-               unicode.h helper/pow2_ge.h
+               unicode.c memory_usage.c helper/pow2_ge.c \
+               unicode.h memory_usage.h helper/pow2_ge.h

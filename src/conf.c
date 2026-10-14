@@ -106,11 +106,13 @@ FILE *fp;
 	if (! (fp = fopen (path, "wb")))
 		return false;
 
-	fprintf (fp, "#" CONF_FONT_NAME " = " DEFAULT_FONT_NAME "\n");
-	fprintf (fp, "#" CONF_WS_WIDTH  " = " "\n");
-	fprintf (fp, "#" CONF_WS_HEIGHT " = " "\n");
-	fprintf (fp, "#" CONF_WS_X      " = " "\n");
-	fprintf (fp, "#" CONF_WS_Y      " = " "\n");
+	fprintf (fp, "#" CONF_FONT_NAME    " = " DEFAULT_FONT_NAME "\n");
+	fprintf (fp, "#" CONF_WS_WIDTH     " = " "\n");
+	fprintf (fp, "#" CONF_WS_HEIGHT    " = " "\n");
+	fprintf (fp, "#" CONF_WS_X         " = " "\n");
+	fprintf (fp, "#" CONF_WS_Y         " = " "\n");
+	fprintf (fp, "#" CONF_SB_HEIGHT    " = " "\n");
+	fprintf (fp, "#" CONF_SB_FONT_NAME " = " DEFAULT_FONT_NAME "\n");
 
 	fclose (fp);
 	return true;

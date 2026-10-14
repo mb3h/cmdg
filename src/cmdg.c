@@ -24,7 +24,7 @@
 #include <errno.h> // EINVAL
 #include <getopt.h>
 typedef uint32_t u32;
-typedef  uint8_t u8, u1;
+typedef  uint8_t u8, u1, u6;
 typedef uint16_t u16, u9, u10, u12;
 typedef uint64_t u64;
 
@@ -48,6 +48,11 @@ typedef uint64_t u64;
 #define DEFAULT_WS_ROW 24
 #define DEFAULT_WS_X 0
 #define DEFAULT_WS_Y 0
+
+/* settings when HEIGHT FONTNAME configuration of statusbar
+   not found */
+#define DEFAULT_SB_HEIGHT 21
+#define DEFAULT_SB_FONT_NAME "Ubuntu Mono 12"
 
 ///////////////////////////////////////////////////////////////
 // VT100
@@ -85,7 +90,7 @@ int gtkc; char *gtkv_[1], **gtkv = gtkv_;
 	gtk_init (&gtkc, &gtkv);
 
 	// configuration
-unsigned u, err_uint;
+unsigned u, err_uint; const char *err_cstr;
 
 	u = conf->read_uint (CONF_WS_WIDTH, err_uint = 0);
 u12 ws_width
@@ -107,21 +112,29 @@ u12 ws_y
 	= (0 <= u && u < (1 << 12)) ? (u12)u
 	                            : DEFAULT_WS_Y;
 
+	u = conf->read_uint (CONF_SB_HEIGHT, err_uint = 0);
+u12 statusbar_height
+	= (0 < u && u < (1 << 6)) ? (u6)u
+	                          : DEFAULT_SB_HEIGHT;
+const char *statusbar_font_name
+	= conf->read_cstr (CONF_SB_FONT_NAME,
+	                   err_cstr = DEFAULT_SB_FONT_NAME);
+
 	// GTK window
 bool ok
 	= gtk2_windowing->create_gui (gdk2_keyin->on_key,
 	                              _on_gui_resized,
-	                              ws_x, ws_y);
+	                              ws_x, ws_y,
+	                              statusbar_height);
 	if (!ok)
 		return -1;
 
 GtkDrawingArea *da
 	= gtk2_windowing->show_gui (ws_width, ws_height,
-	                            MONO(0)
-);
+	                            MONO(0),
+	                            statusbar_font_name);
 
 	// font
-const char *err_cstr;
 const char *font_name
 	= conf->read_cstr (CONF_FONT_NAME, err_cstr = DEFAULT_FONT_NAME);
 	gtk2_font->load_pango (font_name, GTK_WIDGET(da));

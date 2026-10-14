@@ -108,7 +108,8 @@ am_cmdg_OBJECTS = cmdg-cmdg.$(OBJEXT) cmdg-conf.$(OBJEXT) \
 	cmdg-vt100_parser.$(OBJEXT) cmdg-gtk2_font.$(OBJEXT) \
 	cmdg-image_backlog.$(OBJEXT) cmdg-bpp1.$(OBJEXT) \
 	cmdg-bpp8.$(OBJEXT) cmdg-bpp16.$(OBJEXT) cmdg-bpp32.$(OBJEXT) \
-	cmdg-unicode.$(OBJEXT) helper/cmdg-pow2_ge.$(OBJEXT)
+	cmdg-unicode.$(OBJEXT) cmdg-memory_usage.$(OBJEXT) \
+	helper/cmdg-pow2_ge.$(OBJEXT)
 cmdg_OBJECTS = $(am_cmdg_OBJECTS)
 cmdg_DEPENDENCIES =
 cmdg_LINK = $(CCLD) $(cmdg_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
@@ -134,7 +135,8 @@ am__depfiles_remade = ./$(DEPDIR)/cmdg-bpp1.Po \
 	./$(DEPDIR)/cmdg-conf.Po ./$(DEPDIR)/cmdg-gdk2_keyin.Po \
 	./$(DEPDIR)/cmdg-gtk2_font.Po \
 	./$(DEPDIR)/cmdg-gtk2_windowing.Po \
-	./$(DEPDIR)/cmdg-image_backlog.Po ./$(DEPDIR)/cmdg-on_ptout.Po \
+	./$(DEPDIR)/cmdg-image_backlog.Po \
+	./$(DEPDIR)/cmdg-memory_usage.Po ./$(DEPDIR)/cmdg-on_ptout.Po \
 	./$(DEPDIR)/cmdg-pseudo_vt100.Po ./$(DEPDIR)/cmdg-unicode.Po \
 	./$(DEPDIR)/cmdg-vt100_parser.Po \
 	helper/$(DEPDIR)/cmdg-pow2_ge.Po
@@ -305,8 +307,8 @@ cmdg_SOURCES = cmdg.c appconst.h \
                gtk2_font.h image_backlog.h \
                bpp1.c bpp8.c bpp16.c bpp32.c \
                bpp1.h bpp8.h bpp16.h bpp32.h \
-               unicode.c helper/pow2_ge.c \
-               unicode.h helper/pow2_ge.h
+               unicode.c memory_usage.c helper/pow2_ge.c \
+               unicode.h memory_usage.h helper/pow2_ge.h
 
 all: all-am
 
@@ -413,6 +415,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-gtk2_font.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-gtk2_windowing.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-image_backlog.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-memory_usage.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-on_ptout.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-pseudo_vt100.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cmdg-unicode.Po@am__quote@ # am--include-marker
@@ -637,6 +640,20 @@ cmdg-unicode.obj: unicode.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-unicode.obj `if test -f 'unicode.c'; then $(CYGPATH_W) 'unicode.c'; else $(CYGPATH_W) '$(srcdir)/unicode.c'; fi`
 
+cmdg-memory_usage.o: memory_usage.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-memory_usage.o -MD -MP -MF $(DEPDIR)/cmdg-memory_usage.Tpo -c -o cmdg-memory_usage.o `test -f 'memory_usage.c' || echo '$(srcdir)/'`memory_usage.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-memory_usage.Tpo $(DEPDIR)/cmdg-memory_usage.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='memory_usage.c' object='cmdg-memory_usage.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-memory_usage.o `test -f 'memory_usage.c' || echo '$(srcdir)/'`memory_usage.c
+
+cmdg-memory_usage.obj: memory_usage.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT cmdg-memory_usage.obj -MD -MP -MF $(DEPDIR)/cmdg-memory_usage.Tpo -c -o cmdg-memory_usage.obj `if test -f 'memory_usage.c'; then $(CYGPATH_W) 'memory_usage.c'; else $(CYGPATH_W) '$(srcdir)/memory_usage.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/cmdg-memory_usage.Tpo $(DEPDIR)/cmdg-memory_usage.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='memory_usage.c' object='cmdg-memory_usage.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -c -o cmdg-memory_usage.obj `if test -f 'memory_usage.c'; then $(CYGPATH_W) 'memory_usage.c'; else $(CYGPATH_W) '$(srcdir)/memory_usage.c'; fi`
+
 helper/cmdg-pow2_ge.o: helper/pow2_ge.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(cmdg_CFLAGS) $(CFLAGS) -MT helper/cmdg-pow2_ge.o -MD -MP -MF helper/$(DEPDIR)/cmdg-pow2_ge.Tpo -c -o helper/cmdg-pow2_ge.o `test -f 'helper/pow2_ge.c' || echo '$(srcdir)/'`helper/pow2_ge.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) helper/$(DEPDIR)/cmdg-pow2_ge.Tpo helper/$(DEPDIR)/cmdg-pow2_ge.Po
@@ -789,6 +806,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/cmdg-gtk2_font.Po
 	-rm -f ./$(DEPDIR)/cmdg-gtk2_windowing.Po
 	-rm -f ./$(DEPDIR)/cmdg-image_backlog.Po
+	-rm -f ./$(DEPDIR)/cmdg-memory_usage.Po
 	-rm -f ./$(DEPDIR)/cmdg-on_ptout.Po
 	-rm -f ./$(DEPDIR)/cmdg-pseudo_vt100.Po
 	-rm -f ./$(DEPDIR)/cmdg-unicode.Po
@@ -849,6 +867,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/cmdg-gtk2_font.Po
 	-rm -f ./$(DEPDIR)/cmdg-gtk2_windowing.Po
 	-rm -f ./$(DEPDIR)/cmdg-image_backlog.Po
+	-rm -f ./$(DEPDIR)/cmdg-memory_usage.Po
 	-rm -f ./$(DEPDIR)/cmdg-on_ptout.Po
 	-rm -f ./$(DEPDIR)/cmdg-pseudo_vt100.Po
 	-rm -f ./$(DEPDIR)/cmdg-unicode.Po

@@ -36,7 +36,7 @@ src/cmdg
 ## TODO
 
 CONSOLE MANAGEMENT
-- [ ] status bar: show memory usage
+- [x] status bar: show memory usage
 - [ ] inifinte backlog (as much as memory limited)
 - [ ] save/load backlog
 - [ ] swap out backlog (between storage and memory)

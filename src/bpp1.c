@@ -8,6 +8,7 @@
 
 #include "bpp1.h"
 #include "helper/pow2_ge.h"
+#include "memory_usage.h"
 
 #include <stdio.h> // printf
 #include <stdlib.h> // exit
@@ -82,12 +83,15 @@ unsigned needed_byte_size
 	= width * height;
 	if (NULL == m_->values) {
 		m_->values = (u8 *)malloc (pow2_ge(needed_byte_size));
+		textlog_usage->add (m_->values, pow2_ge(needed_byte_size));
 		m_->byte_size = pow2_ge(needed_byte_size);
 		memset (m_->values, 0, m_->byte_size);
 	}
 	else {
 		if (m_->byte_size < pow2_ge(needed_byte_size)) {
+			textlog_usage->remove (m_->values);
 			m_->values = (u8 *)realloc (m_->values, pow2_ge(needed_byte_size));
+			textlog_usage->add (m_->values, pow2_ge(needed_byte_size));
 			m_->byte_size = pow2_ge(needed_byte_size);
 		}
 		// data moving

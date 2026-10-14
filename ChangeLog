@@ -4,6 +4,17 @@
 	           build setting (configure.ac Makefile.am ...) fixing only.
 	        2) Date was written on GMT(+0000).
 
+2026-10-14  mb3h
+
+	status bar: show memory usage
+	subtle fixing: readability, name mistaken
+	bugfix: unexpected color changing (menubar text)
+	* conf.c gtk2_windowing.c gtk2_font.c cmdg.c
+	* conf.h gtk2_windowing.h gtk2_font.h
+	* image_backlog.c on_ptout.c
+	* bpp1.c bpp8.c bpp16.c bpp32.c: (Modified)
+	* memory_usage.c memory_usage.h: (New added)
+
 2026-10-11  mb3h
 
 	* [0.1.0] freezed.

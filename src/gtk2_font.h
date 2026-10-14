@@ -35,4 +35,15 @@ typedef struct {
 } READABILITY_SUGAR_GTK2_FONT;
 extern const READABILITY_SUGAR_GTK2_FONT *gtk2_font;
 
+// helper export
+typedef struct {
+	int approximate_digit_width;
+	int height;
+	int ascent;
+	int descent;
+} FONT_SIZE;
+PangoLayout *gtk_widget_set_pango_font (GtkWidget *widget,
+                                        const char *name,
+                                        FONT_SIZE *font);
+
 #endif //ndef GTK2_FONT_H_INCLUDED__

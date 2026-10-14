@@ -103,14 +103,73 @@ static void _gdk_color_from_rgb24 (GdkColor *dst, u24 rgb24)
 	dst->blue  = 0x101 * (0xff & rgb24      );
 }
 
-static cairo_t *_create_cairo (GdkWindow *window)
+static PangoLayout *_gtk_widget_set_pango_font (GtkWidget *widget,
+                                                const char *name,
+                                                FONT_SIZE *font)
 {
-caller_bug(window)
+	// allocate font description
+PangoFontDescription *font_desc
+	= pango_font_description_from_string (name);
+unexpected(font_desc)
 
-cairo_t *cr
-	= gdk_cairo_create (GDK_DRAWABLE(window));
-	return cr;
+	// mention pango context
+PangoContext *pango
+	= gtk_widget_get_pango_context (widget);
+
+	// font metrics
+unexpected(pango)
+PangoLanguage *lang
+	= pango_context_get_language (pango);
+unexpected(lang)
+PangoFontMetrics *mtx
+	= pango_context_get_metrics (pango, font_desc, lang);
+unexpected(mtx)
+
+int approximate_digit_width
+	= pango_font_metrics_get_approximate_digit_width (mtx);
+int height
+	= pango_font_metrics_get_height (mtx);
+int ascent
+	= pango_font_metrics_get_ascent (mtx);
+int descent
+	= pango_font_metrics_get_descent (mtx);
+
+	// (convert from glyph units to pixels)
+	approximate_digit_width = PANGO_PIXELS(approximate_digit_width);
+	height = PANGO_PIXELS(height);
+	ascent = PANGO_PIXELS(ascent);
+	descent = PANGO_PIXELS(descent);
+
+	// apply font
+	gtk_widget_modify_font (widget, font_desc);
+
+	// release font description
+attention_spec(widget->style->font_desc != font_desc)
+	pango_font_description_free (font_desc);
+
+	// return basic font pixel-size
+	if (font) {
+		font->approximate_digit_width = approximate_digit_width;
+		font->height                  = height;
+		font->ascent                  = ascent;
+		font->descent                 = descent;
+	}
+
+	// return acutual drawing interface
+PangoLayout *layout
+	= pango_layout_new (pango);
+	if (NULL == layout)
+		return NULL;
+	pango_layout_set_font_description (layout,
+	                                   widget->style->font_desc);
+	return layout;
 }
+
+// export
+PangoLayout *gtk_widget_set_pango_font (GtkWidget *widget,
+                                        const char *name,
+                                        FONT_SIZE *font)
+{ return _gtk_widget_set_pango_font (widget, name, font); }
 
 ///////////////////////////////////////////////////////////////
 // utility
@@ -192,60 +251,23 @@ static void _load_pango_font (const char *font_name,
 {
 gtk2_font_s *m_ = &s_singlton;
 
-	// allocate font description
-PangoFontDescription *font_desc
-	= pango_font_description_from_string (font_name);
-unexpected(font_desc)
+FONT_SIZE font; PangoLayout *layout
+	= _gtk_widget_set_pango_font (widget, font_name, &font);
+unexpected(layout)
 
-	// mention pango context
-PangoContext *pango
-	= gtk_widget_get_pango_context (widget);
-
-	// font metrics
-unexpected(pango)
-PangoLanguage *lang
-	= pango_context_get_language (pango);
-unexpected(lang)
-PangoFontMetrics *mtx
-	= pango_context_get_metrics (pango, font_desc, lang);
-unexpected(mtx)
-
-int approximate_digit_width
-	= pango_font_metrics_get_approximate_digit_width (mtx);
-int height
-	= pango_font_metrics_get_height (mtx);
-int ascent
-	= pango_font_metrics_get_ascent (mtx);
-int descent
-	= pango_font_metrics_get_descent (mtx);
-
-	// (convert from glyph units to pixels)
-	approximate_digit_width = PANGO_PIXELS(approximate_digit_width);
-	height = PANGO_PIXELS(height);
-	ascent = PANGO_PIXELS(ascent);
-	descent = PANGO_PIXELS(descent);
-
-	// apply font
-	gtk_widget_modify_font (widget, font_desc);
-attention_spec(widget->style->font_desc != font_desc)
-
-	// layout object for drawing
+	// change layout object for drawing
 	if (m_->layout) {
 		g_object_unref (m_->layout);
 		m_->layout = NULL;
 	}
-	m_->layout = pango_layout_new (pango);
-unexpected(m_->layout)
-	pango_layout_set_font_description (m_->layout,
-	                                   widget->style->font_desc);
-
-	// release font description
-	pango_font_description_free (font_desc);
+	m_->layout = layout;
 
 	// drawing control
 	m_->use_custom_font = FALSE;
-	m_->lf_width = (u8)approximate_digit_width;
-	m_->lf_height = (u8)(max(height, ascent +descent)); // NOTE: (*2)
+	m_->lf_width = (u8)font.approximate_digit_width;
+	m_->lf_height = (u8)(max(font.height,
+	                         font.ascent
+	                         + font.descent)); // NOTE: (*2)
 }
 
 static char *_workdir_plus_dup (char sep, const char *relpath)
@@ -463,12 +485,19 @@ unexpected(attr)
 	pango_attr_list_unref (list);
 
 	// GdkGC: text color
+GdkGCValues values;
+	gdk_gc_get_values (fgcl_gc, &values);
+GdkColor old_fgcl
+	= values.foreground;
 	gdk_gc_set_foreground (fgcl_gc, &fgcl);
 
 	// gdk: drawing
 gint x, y;
 	x = col * m_->lf_width, y = pt_row * m_->lf_height;
 	gdk_draw_layout (GDK_DRAWABLE(window), fgcl_gc, x, y, m_->layout);
+
+	// GdkGC: text color recovering
+	gdk_gc_set_foreground (fgcl_gc, &old_fgcl);
 
 	// cairo: underline overlay NOTE: (*4)
 	if (underline) {
